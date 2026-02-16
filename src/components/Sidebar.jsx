@@ -7,20 +7,18 @@ export default function Sidebar() {
         { icon: '⚽', href: "",label: 'PRACTICE' },
         { icon: '🏆', href: "",label: 'LEADERBOARDS' },
         { icon: '📜', href: "",label: 'QUESTS' },
-        { icon: '🛍️', href: "",label: 'SHOP' },
         { icon: '👩', href: "profile", label: 'PROFILE' },
-        { icon: '💬', href: "", label: 'MORE' },
         { icon: '🛍️', href: "login", label: 'LOGOUT' },
     ];
 
     return (
         <div className="w-64 flex flex-col">
             {/* Logo */}
-            <div className="mb-12">
+            <Link to="/" className="mb-12">
                 <h1 className="text-3xl font-bold text-transparent bg-linear-to-r from-pink-500 via-purple-500 to-orange-500 bg-clip-text">
                 Funlingo
                 </h1>
-            </div>
+            </Link>
 
             {/* Navigation Items */}
             <nav className="space-y-3 flex-1">
