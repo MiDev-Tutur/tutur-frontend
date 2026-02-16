@@ -6,6 +6,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Auth/Login"
 import Register from "./pages/Auth/REgister"
 import Profile from "./pages/Profile"
+import Subscriptions from "./pages/Subscriptions"
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/profile',
     element: <Profile/>
+  },
+  {
+    path: '/subscriptions',
+    element: <Subscriptions/>
   },
 ])
 
