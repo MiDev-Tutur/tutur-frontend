@@ -5,7 +5,7 @@ Fitur Aplikasi Tutur (Clone Duolingo) :
 3. Halaman Utama Latihan (Daftar Latihan Berdasarkan Tingkatan [Beginner, intermediate, Advanced]) 
 4. Halaman Latihan (Halaman Latihan Soal dan Jawaban Teks, Latihan Cerita Rakyat, Latihan Menebak dan Mencocokkan Kata, Latihan Mendengar)
 5. Halaman Akun (Informasi Akun, Scoring Latihan) V
-6. Halaman Berlangganan (Pilih menu berlangganan bahasa bulanan atau tahunan)
+6. Halaman Berlangganan (Pilih menu berlangganan bahasa bulanan atau tahunan) V
 
 Fitur Opsional 
 1. Halaman Dashboard Admin

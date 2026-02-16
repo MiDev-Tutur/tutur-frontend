@@ -7,6 +7,7 @@ import Login from "./pages/Auth/Login"
 import Register from "./pages/Auth/REgister"
 import Profile from "./pages/Profile"
 import Subscriptions from "./pages/Subscriptions"
+import CompletedTask from "./pages/CompletedTask"
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/subscriptions',
     element: <Subscriptions/>
+  },
+  {
+    path: '/completedtask',
+    element: <CompletedTask/>
   },
 ])
 
