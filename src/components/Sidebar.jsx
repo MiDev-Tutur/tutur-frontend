@@ -1,14 +1,11 @@
-import { href, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
     const menuItems = [
-        { icon: '🏠', href: "",label: 'LEARN' },
-        { icon: '🔤', href: "",label: 'LETTERS' },
-        { icon: '⚽', href: "",label: 'PRACTICE' },
-        { icon: '🏆', href: "",label: 'LEADERBOARDS' },
-        { icon: '📜', href: "subscriptions",label: 'SUBSCRIPTION' },
-        { icon: '👩', href: "profile", label: 'PROFILE' },
-        { icon: '🛍️', href: "login", label: 'LOGOUT' },
+        { icon: '🏠', href: "/learn",label: 'LEARN' },
+        { icon: '📜', href: "/subscriptions",label: 'SUBSCRIPTION' },
+        { icon: '👩', href: "/profile", label: 'PROFILE' },
+        { icon: '🛍️', href: "/login", label: 'LOGOUT' },
     ];
 
     return (

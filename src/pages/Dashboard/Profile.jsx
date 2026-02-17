@@ -1,7 +1,7 @@
-import FollowingPanel from "../components/FollowingPanel"
-import ProfileHeader from "../components/ProfileHeader"
-import Sidebar from "../components/Sidebar"
-import Statistics from "../components/Statistics"
+import FollowingPanel from "../../components/FollowingPanel"
+import ProfileHeader from "../../components/ProfileHeader"
+import Sidebar from "../../components/Sidebar"
+import Statistics from "../../components/Statistics"
 
 const Profile = () =>{
     return(

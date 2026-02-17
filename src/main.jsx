@@ -2,17 +2,22 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { createBrowserRouter, RouterProvider} from "react-router-dom"
 import "./index.css"
-import Home from "./pages/Home"
+import Learn from "./pages/Dashboard/Home"
 import Login from "./pages/Auth/Login"
 import Register from "./pages/Auth/REgister"
-import Profile from "./pages/Profile"
-import Subscriptions from "./pages/Subscriptions"
-import CompletedTask from "./pages/CompletedTask"
+import Profile from "./pages/Dashboard/Profile"
+import Subscriptions from "./pages/Dashboard/Subscriptions"
+import CompletedTask from "./pages/Dashboard/CompletedTask"
+import Home from "./pages/Home"
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home/>
+  },
+  {
+    path: '/learn',
+    element: <Learn/>
   },
   {
     path: '/login',

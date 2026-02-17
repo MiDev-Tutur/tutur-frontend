@@ -6,7 +6,7 @@ export default function Login() {
     const [password, setPassword] = useState('');
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-purple-200 via-pink-200 to-orange-200 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-linear-to-br from-orange-50 to-white flex items-center justify-center p-4">
             <div className="w-full max-w-6xl">
                 <div className='flex gap-5 w-full justify-between my-5'>
                     <div className='flex flex-col justify-center'>
