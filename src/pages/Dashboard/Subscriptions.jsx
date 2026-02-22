@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Sidebar from '../../components/Sidebar';
+import Sidebar from '../../components/Dashboard/Sidebar';
 
 export default function Subscriptions() {
     const [billingPeriod, setBillingPeriod] = useState('monthly');
@@ -71,13 +71,13 @@ export default function Subscriptions() {
     const savings = ((subscriptionPlans.map(plan => (plan.monthlyPrice * 12) - plan.yearlyPrice)));
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-emerald-100 via-teal-50 to-cyan-100">
-            <div className="flex gap-6 p-6">
-                {/* Left Sidebar */}
-                <Sidebar />
+        <div className="flex h-screen bg-gray-50 overflow-hidden">
+            {/* Left Sidebar */}
+            <Sidebar></Sidebar>
 
-                {/* Main Content */}
-                <div className="flex-1 max-w-6xl">
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col ml-64 overflow-y-auto">
+                {/* Content */}
                 {/* Header */}
                 <div className="mb-12">
                     <h1 className="text-5xl font-black text-emerald-700">Choose Your Plan</h1>
@@ -225,7 +225,6 @@ export default function Subscriptions() {
                         </div>
                     ))}
                     </div>
-                </div>
                 </div>
             </div>
         </div>

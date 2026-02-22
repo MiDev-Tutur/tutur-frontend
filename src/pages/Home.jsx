@@ -21,7 +21,7 @@ export default function Home() {
     ];
 
     return (
-        <div className='min-h-screen bg-white font-[Nunito]'>
+        <div className='min-h-screen bg-white font-[Rubik]'>
             <div className="flex flex-col mx-45">
                 {/* Header */}
                 <Header></Header>
@@ -38,7 +38,7 @@ export default function Home() {
                     {/* Right Side - Content */}
                     <div className="flex-1 flex flex-col justify-center items-start gap-8">
                         <div className='w-full flex justify-center'>
-                            <h1 className="text-4xl text-wrap max-w-md text-center font-bold text-zinc-800 leading-tight">
+                            <h1 className="text-3xl text-wrap max-w-md text-center font-medium text-zinc-800 leading-tight">
                                 Learn the root, share the culture, connect the region
                             </h1>
                         </div>
@@ -46,13 +46,13 @@ export default function Home() {
                         <div className="w-full items-center flex flex-col gap-8">
                             <button
                                 onClick={() => navigate('/login')}
-                                className="w-full max-w-xs bg-blue-400 text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#3e7aa4] font-bold py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
+                                className="w-full max-w-xs  bg-[#00d26a] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#018041] font-medium py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
                             >
                                 START
                             </button>
                             <button
                                 onClick={() => navigate('/register')}
-                                className="w-full max-w-xs bg-green-500 text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#3b8702] font-bold py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
+                                className="w-full max-w-xs bg-[#0074ba] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#02456d] font-medium py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
                             >
                                 SIGN UP
                             </button>
@@ -67,7 +67,7 @@ export default function Home() {
                     {regions.map((region, index) => (
                         <div key={index} className="flex items-center cursor-pointer hover:opacity-80 transition">
                             <img src={region.icon} className="w-17"/>
-                            <span className="text-gray-700 font-semibold text-sm">{region.name}</span>
+                            <span className="text-gray-700 font-medium">{region.name}</span>
                         </div>
                     ))}
                     </div>

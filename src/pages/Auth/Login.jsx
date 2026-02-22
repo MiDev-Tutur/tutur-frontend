@@ -9,7 +9,7 @@ export default function Login() {
     const [password, setPassword] = useState('');
 
     return (
-        <div className="min-h-screen flex flex-col mx-45 font-[Nunito]">
+        <div className="min-h-screen flex flex-col mx-45 font-[Rubik]">
             {/* Header */}
             <Header></Header>
 
@@ -17,7 +17,7 @@ export default function Login() {
             <main className="flex-1 flex items-center justify-center px-4 py-6">
                 <div className="w-full max-w-lg flex flex-col gap-5">
                     {/* Heading */}
-                    <h2 className="text-3xl font-bold text-zinc-800 text-center">
+                    <h2 className="text-3xl font-medium text-zinc-800 text-center">
                         Welcome back to your cultural<br />journey
                     </h2>
 
@@ -30,7 +30,7 @@ export default function Login() {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 font-semibold focus:outline-none focus:border-blue-400 bg-gray-200/25"
+                        className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 focus:outline-none focus:border-blue-400 bg-gray-200/25"
                         />
 
                         {/* Password Input */}
@@ -40,13 +40,13 @@ export default function Login() {
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 font-semibold focus:outline-none focus:border-blue-400 bg-gray-200/25"
+                        className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 focus:outline-none focus:border-blue-400 bg-gray-200/25"
                         />
 
                         {/* Login Button */}
                         <button
                             type='submit'
-                            className="w-full max-w-xs bg-blue-400 text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#3e7aa4] font-bold py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
+                            className="w-full max-w-xs bg-[#00d26a] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#018041] font-medium py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
                         >
                             LOGIN
                         </button>
@@ -62,14 +62,14 @@ export default function Login() {
                     {/* Google Button */}
                     <button className="w-full py-3 text-lg font-extrabold text-gray-700 border border-gray-300 rounded-2xl transition flex items-center hover:translate-y-1 duration-300 justify-center gap-2 hover:cursor-pointer bg-white hover:shadow-none shadow-[0_4px_0_#d9d9d9]">
                         <img className='w-5' src={google} alt="" />
-                        <span className="text-green-500 text-xl font-bold">Google</span>
+                        <span className="text-xl font-medium">Google</span>
                     </button>
 
                     {/* Sign Up Button */}
                     <button
                         type='submit'
                         onClick={() => navigate('/register')}
-                        className="w-full self-center max-w-xs bg-green-500 text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#3b8702] font-bold py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
+                        className="w-full self-center max-w-xs bg-[#0074ba] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#02456d] font-medium py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
                     >
                         SIGN UP?
                     </button>

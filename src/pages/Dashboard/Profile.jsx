@@ -1,23 +1,29 @@
+import Sidebar from "../../components/Dashboard/Sidebar"
 import FollowingPanel from "../../components/FollowingPanel"
 import ProfileHeader from "../../components/ProfileHeader"
-import Sidebar from "../../components/Sidebar"
 import Statistics from "../../components/Statistics"
 
 const Profile = () =>{
     return(
-        <div className="min-h-screen bg-linear-to-br from-purple-100 via-pink-50 to-orange-100">
-            <div className="flex gap-6 p-6">
-                {/* Left Sidebar */}
-                <Sidebar />
+        <div className="flex h-screen bg-gray-50 overflow-hidden">
+            {/* Left Sidebar */}
+            <Sidebar></Sidebar>
 
-                {/* Main Content */}
-                <div className="flex-1 max-w-3xl">
-                    <ProfileHeader />
-                    <Statistics />
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col ml-64 overflow-y-auto">
+                <div className="flex gap-6 p-6">
+                    {/* Left Sidebar */}
+                    <Sidebar />
+
+                    {/* Main Content */}
+                    <div className="flex-1 max-w-3xl">
+                        <ProfileHeader />
+                        <Statistics />
+                    </div>
+
+                    {/* Right Panel */}
+                    <FollowingPanel />
                 </div>
-
-                {/* Right Panel */}
-                <FollowingPanel />
             </div>
         </div>
     )

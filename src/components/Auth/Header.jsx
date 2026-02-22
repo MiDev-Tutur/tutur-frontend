@@ -29,7 +29,7 @@ const Header = () =>{
                     className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-50 cursor-pointer transition"
                 >
                     <img className='w-5' src={selectedFlag} alt="" />
-                    <span className="text-gray-700 font-semibold">{selectedLanguage}</span>
+                    <span className="text-gray-700">{selectedLanguage}</span>
                     <img className='w-5 font-semibold' src={down} alt="" />
                 </button>
                 
@@ -46,7 +46,7 @@ const Header = () =>{
                             className="w-full flex cursor-pointer items-center gap-3 text-left px-4 py-3 hover:bg-gray-100 transition first:rounded-t-lg last:rounded-b-lg"
                         >
                             <img src={lang.flag} alt={lang.name} className="w-5 h-5" />
-                            <span>{lang.name}</span>
+                            <span className="text-nowrap">{lang.name}</span>
                         </button>
                         ))}
                     </div>
