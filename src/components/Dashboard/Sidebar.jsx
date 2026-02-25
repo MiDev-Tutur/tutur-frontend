@@ -31,7 +31,7 @@ const Sidebar = () =>{
                     to={menu.to}
                     key={idx}
                     className={`flex items-center gap-3 px-4 py-3 rounded-2xl cursor-pointer transition-all ${
-                        menu.to == isActive
+                        menu.to == isActive 
                         ? 'bg-cyan-100 border-2 border-cyan-400'
                         : 'hover:bg-gray-100'
                     }`}

@@ -12,6 +12,7 @@ import Home from "./pages/Home"
 import Community from "./pages/Dashboard/Community"
 import Badge from "./pages/Dashboard/Badge"
 import Language from "./pages/Dashboard/Language"
+import Question from "./pages/Dashboard/Question"
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: '/language',
     element: <Language/>
+  },
+  {
+    path: '/question',
+    element:< Question/>
   },
 ])
 
