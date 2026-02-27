@@ -8,6 +8,10 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const handleLogin = async(e) =>{
+        e.preventDefault()
+    }
+
     return (
         <div className="min-h-screen flex flex-col mx-45 font-[Rubik]">
             {/* Header */}
@@ -22,7 +26,7 @@ export default function Login() {
                     </h2>
 
                     {/* Form */}
-                    <form className="flex flex-col justify-center gap-5 items-center mt-5">
+                    <form onSubmit={handleLogin} className="flex flex-col justify-center gap-5 items-center mt-5">
                         {/* Email Input */}
                         <input
                         type="email"

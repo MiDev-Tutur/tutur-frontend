@@ -2,8 +2,9 @@ import indonesia from "../../assets/img/indonesia.png"
 import english from "../../assets/img/english.png"
 import down from "../../assets/img/down.png"
 import { useState } from "react"
+import Flash from "../Flash"
 
-const Header = () =>{
+const Header = ({message}) =>{
     const [showDropdown, setShowDropdown] = useState(false);
         
     const languages = [
@@ -20,7 +21,10 @@ const Header = () =>{
     const [selectedFlag, setSelectedFlag] = useState(languages[1].flag);
 
     return(
-        <header className="flex justify-between items-center px-8 py-6">
+        <header className="flex justify-between items-center px-8 py-6 relative">
+            <Flash
+                message={message}
+            />
             <div className="text-4xl font-bold text-zinc-800">Tutur.</div>
             
             <div className="relative">

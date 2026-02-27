@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Header from '../../components/Auth/Header';
 import google from "../../assets/img/google.png"
+import { useNavigate } from 'react-router-dom';
+import Flash from '../../components/Flash';
 
 export default function Register() {
     const [formData, setFormData] = useState({
@@ -8,22 +10,59 @@ export default function Register() {
         email: '',
         password: '',
     });
+    const [message, setMessage] = useState("")
+    const navigate = useNavigate()
 
-        const handleChange = (e) => {
-            const { name, value } = e.target;
-            setFormData(prev => ({
-                ...prev,
-                [name]: value,
-            }));
-        };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleRegister = async (e) => {
+        e.preventDefault()
+
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/tutur/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                    userName: formData.name,
+                    userEmail: formData.email,
+                    userPassword: formData.password,
+                }),
+            })
+
+            const data = await response.json()
+
+            if(!response.ok){
+                setMessage(data.detail)
+                setFormData(prev => ({
+                    ...prev,
+                    password: ""
+                }));
+            }else{
+                setMessage(data.detail)
+                setTimeout(()=>{
+                    navigate('/login')
+                }, 1200)
+            }
+        } catch (error) {
+            console.error("Error:", error)
+            alert("Server tidak bisa diakses")
+        }
+    }
 
     return (
         <div className="min-h-screen flex flex-col mx-45 font-[Rubik]">
             {/* Header */}
-            <Header></Header>
-
+            <Header message={message}></Header>
             {/* Main Content */}
-            <main className="flex-1 flex items-center justify-center px-4 py-6">
+            <main className="flex-1 relative flex items-center justify-center px-4 py-6">
                 <div className="w-full max-w-lg flex flex-col gap-5">
                     {/* Heading */}
                     <div className='flex flex-col gap-2'>
@@ -36,37 +75,38 @@ export default function Register() {
                     </div>
 
                     {/* Form */}
-                    <form className="flex flex-col justify-center gap-5 items-center">
+                    <form onSubmit={handleRegister} className="flex flex-col justify-center gap-5 items-center">
                         {/* Name Input */}
                         <input
-                        type="text"
-                        name='name'
-                        placeholder="Name (optional)"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 focus:outline-none focus:border-blue-400 bg-gray-200/25"
+                            type="text"
+                            name='name'
+                            required
+                            placeholder="Name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 focus:outline-none focus:border-blue-400 bg-gray-200/25"
                         />
 
                         {/* Email Input */}
                         <input
-                        type="email"
-                        name='email'
-                        required
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 focus:outline-none focus:border-blue-400 bg-gray-200/25"
+                            type="email"
+                            name='email'
+                            required
+                            placeholder="Email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 focus:outline-none focus:border-blue-400 bg-gray-200/25"
                         />
 
                         {/* Password Input */}
                         <input
-                        type="password"
-                        name='password'
-                        placeholder="Password"
-                        value={formData.password}
-                        required
-                        onChange={handleChange}
-                        className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 focus:outline-none focus:border-blue-400 bg-gray-200/25"
+                            type="password"
+                            name='password'
+                            placeholder="Password"
+                            value={formData.password}
+                            required
+                            onChange={handleChange}
+                            className="w-full px-6 py-3 text-xl border-3 border-gray-300 rounded-2xl placeholder-gray-500 focus:outline-none focus:border-blue-400 bg-gray-200/25"
                         />
 
                         {/* Login Button */}
