@@ -2,20 +2,73 @@ import { useState } from 'react';
 import Header from '../../components/Auth/Header';
 import { useNavigate } from 'react-router-dom';
 import google from "../../assets/img/google.png"
+import Flash from '../../components/Flash';
 
 export default function Login() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [visible, setVisible] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState("")
+    const [error, setError] = useState(true)
 
     const handleLogin = async(e) =>{
         e.preventDefault()
+        setLoading(true)
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/tutur/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                    userEmail: email,
+                    userPassword: password,
+                }),
+            })
+
+            const data = await response.json()
+            if(!response.ok){
+                setMessage(data.detail)
+                handleFlash()
+                setPassword("")
+            }else{
+                setError(false)
+                setMessage(data.message)
+                handleFlash()
+                setTimeout(()=>{
+                    navigate('/learn')
+                }, 2500)
+            }
+        } catch (error) {
+            console.error("Error:", error)
+            alert("Server tidak bisa diakses")
+        }finally{
+            setLoading(false)
+        }
+    }
+
+    const handleFlash = () =>{
+        setVisible(true)
+        setTimeout(() => {
+            setVisible(false)
+        }, 3000);
     }
 
     return (
         <div className="min-h-screen flex flex-col mx-45 font-[Rubik]">
             {/* Header */}
             <Header></Header>
+            {
+                visible && (
+                    error ? (
+                        <Flash message={message} type="error"/>
+                    ) : (
+                        <Flash message={message} type="success" />
+                    )
+                )
+            }
 
             {/* Main Content */}
             <main className="flex-1 flex items-center justify-center px-4 py-6">
@@ -50,9 +103,13 @@ export default function Login() {
                         {/* Login Button */}
                         <button
                             type='submit'
-                            className="w-full max-w-xs bg-[#00d26a] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#018041] font-medium py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
+                            className={`w-full max-w-xs ${loading ? "bg-[#018041] shadow-none translate-y-1":"bg-[#00d26a] shadow-[0_4px_0_#018041] cursor-pointer hover:translate-y-1"}  text-white font-medium py-4 px-6 rounded-xl transition transform text-xl duration-300`}
                         >
-                            LOGIN
+                            {loading ? (
+                                "LOADING"
+                            ):(
+                                "LOGIN"
+                            )}
                         </button>
                     </form>
 

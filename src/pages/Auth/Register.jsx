@@ -10,7 +10,10 @@ export default function Register() {
         email: '',
         password: '',
     });
+    const [visible, setVisible] = useState(false)
     const [message, setMessage] = useState("")
+    const [error, setError] = useState(true)
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     const handleChange = (e) => {
@@ -23,7 +26,7 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault()
-
+        setLoading(true)
         try {
             const response = await fetch("http://127.0.0.1:8000/api/tutur/users", {
             method: "POST",
@@ -41,26 +44,48 @@ export default function Register() {
 
             if(!response.ok){
                 setMessage(data.detail)
+                handleFlash()
                 setFormData(prev => ({
                     ...prev,
                     password: ""
                 }));
             }else{
-                setMessage(data.detail)
+                setError(false)
+                setMessage(data.message)
+                handleFlash()
                 setTimeout(()=>{
                     navigate('/login')
-                }, 1200)
+                }, 2500)
             }
         } catch (error) {
             console.error("Error:", error)
             alert("Server tidak bisa diakses")
+        }finally{
+            setLoading(false)
         }
+    }
+
+    const handleFlash = () =>{
+        setVisible(true)
+        setTimeout(() => {
+            setVisible(false)
+        }, 3000);
     }
 
     return (
         <div className="min-h-screen flex flex-col mx-45 font-[Rubik]">
             {/* Header */}
-            <Header message={message}></Header>
+            <Header></Header>
+            {
+                visible && (
+                    error ? (
+                        <Flash message={message} type="error"/>
+                    ) : (
+                        <Flash message={message} type="success" />
+                    )
+                )
+            }
+            
             {/* Main Content */}
             <main className="flex-1 relative flex items-center justify-center px-4 py-6">
                 <div className="w-full max-w-lg flex flex-col gap-5">
@@ -112,9 +137,13 @@ export default function Register() {
                         {/* Login Button */}
                         <button
                         type='submit'
-                        className="w-full self-center max-w-xs bg-[#0074ba] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#02456d] font-medium py-4 px-6 rounded-xl transition transform text-xl hover:translate-y-1 duration-300"
+                        className={`w-full self-center max-w-xs text-white hover:shadow-none ${loading ? "bg-[#02456d] shadow-none translate-y-1":"bg-[#0074ba] shadow-[0_4px_0_#02456d] cursor-pointer hover:translate-y-1"} font-medium py-4 px-6 rounded-xl transition transform text-xl duration-300`}
                         >
-                            CREATE ACCOUNT
+                            {loading ? (
+                                "LOADING"
+                            ):(
+                                "CREATE ACCOUNT"
+                            )}
                         </button>
                     </form>
 
