@@ -1,44 +1,73 @@
 import { useEffect, useState } from "react";
 import Level from "../../components/Dashboard/Level";
 import Sidebar from "../../components/Dashboard/Sidebar";   
+import { useNavigate } from "react-router-dom";
+import LessonHeader from "../../components/Dashboard/LessonHeader";
+import LanguageButton from "../../components/Dashboard/LanguageButton";
 
 export default function Learn() {
     const [levels, setLevels] = useState([]);
+    const navigate = useNavigate()
+    const [isLocal, setIsLocal] = useState(true)
+    const [languages, setLanguages] = useState([])
+    let id = localStorage.getItem('id')
+    let name = localStorage.getItem('name')
+
+    if(!name && !id){
+        navigate('/login')
+    }
 
     useEffect(() => {
         let cancelled = false;
 
-        const fetchLevels = async () => {
-            let step = 1;
+        const local = localStorage.getItem("local");
+        const hasLocal = local !== null && local !== "false";
 
+        if (hasLocal) {
+            const fetchLevels = async () => {
+            let step = 1;
             while (true) {
                 const type = getTypeByStep(step);
                 try {
-                    const res = await fetch(
-                        `http://localhost:8000/api/tutur/course/${type}/${step}/indonesian/minang`
-                    );
+                const res = await fetch(
+                    `http://localhost:8000/api/tutur/course/${type}/${step}/indonesian/${local}`
+                );
 
-                    if (!res.ok) break;
+                if (!res.ok) break;
 
-                    const data = await res.json();
-                        if (!data || !data.questions || data.questions.length === 0) break;
+                const data = await res.json();
+                if (!data?.questions?.length) break;
 
-                    if (!cancelled) {
-                        setLevels(prev => [...prev, data]);
-                    }
+                if (!cancelled) {
+                    setLevels(prev => [...prev, data]);
+                }
 
-                    step++;
-
+                step++;
                 } catch (err) {
-                    console.error(err);
-                    break;
+                console.error(err);
+                break;
                 }
             }
-        };
+            };
 
-        fetchLevels();
-        return () => (cancelled = true);
-    }, []);
+            fetchLevels();
+            return () => (cancelled = true);
+
+        } else {
+            const getData = async () => {
+            try {
+                const res = await fetch("http://localhost:8000/api/tutur/getalllocallanguage");
+                const data = await res.json();
+                setLanguages(data.languages);
+            } catch (err) {
+                console.error(err);
+            }
+            };
+
+            getData();
+            setIsLocal(false);
+        }
+        }, []); 
     
     const getTypeByStep = (step) =>{
         const mod = step % 3
@@ -84,27 +113,34 @@ export default function Learn() {
                 {/* Center Section */}
                 <div className="flex-1 flex flex-col items-center">
                     {/* Lesson Header */}
-                    <div className="w-full max-w-2xl bg-linear-to-r from-cyan-400 to-cyan-500 rounded-3xl p-8 mb-12 text-white shadow-lg">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                            <button className="text-white text-2xl">←</button>
-                            <div>
-                                <p className="text-sm opacity-90">BAGIAN 2, UNIT 1</p>
-                                <h2 className="text-3xl font-bold">Belanja pakalan</h2>
+                    {
+                        isLocal? 
+                        (
+                            <>
+                                <LessonHeader/>
+                                <div className="w-full max-w-4xl bg-white flex flex-wrap gap-5 items-center rounded-3xl shadow-lg p-8">
+                                    {
+                                        levels.map(level => (
+                                            <Level level={level} />
+                                        ))
+                                    }
+                                </div>
+                            </>
+                        ):(
+                            <div className="w-full max-w-6xl mx-auto p-6">
+                                <div className="text-center mb-12">
+                                    <h1 className="text-5xl font-bold text-gray-900 mb-3">Choose Your Language</h1>
+                                    <p className="text-xl text-gray-600">Select your preferred language to start learning</p>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                    {languages.map((language) => (
+                                        <LanguageButton language={language}/>
+                                    ))}
+                                </div>
                             </div>
-                            </div>
-                            <button className="bg-cyan-600 px-6 py-3 rounded-2xl font-bold flex items-center gap-2">
-                            ☰ BUKU PANDUAN
-                            </button>
-                        </div>
-                    </div>
-                    <div className="w-full max-w-4xl bg-white flex flex-wrap gap-5 items-center rounded-3xl shadow-lg p-8">
-                        {
-                            levels.map(level => (
-                                <Level level={level} />
-                            ))
-                        }
-                    </div>
+                        )
+                    }
                 </div>
 
                 {/* Right Panel */}

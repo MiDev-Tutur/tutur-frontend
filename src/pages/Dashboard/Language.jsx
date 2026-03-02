@@ -1,6 +1,24 @@
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/Dashboard/Sidebar"
+import LanguageButton from "../../components/Dashboard/LanguageButton";
 
 const Language = () =>{
+    const [languages, setLanguages] = useState([])
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const res = await fetch("http://localhost:8000/api/tutur/getalllocallanguage");
+                const data = await res.json();
+                setLanguages(data.languages)
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        getData();
+    }, []);
+
     return(
         <div className="flex h-screen bg-gray-50 overflow-hidden">
             {/* Left Sidebar */}
@@ -8,7 +26,18 @@ const Language = () =>{
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col ml-64 overflow-y-auto">
-                {/* Content */}
+                <div className="w-full max-w-6xl mx-auto p-6">
+                    <div className="text-center mb-12">
+                        <h1 className="text-5xl font-bold text-gray-900 mb-3">Choose Your Language</h1>
+                        <p className="text-xl text-gray-600">Select your preferred language to start learning</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        {languages.map((language) => (
+                            <LanguageButton language={language}/>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     )

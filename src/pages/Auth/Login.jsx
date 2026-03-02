@@ -37,6 +37,8 @@ export default function Login() {
                 setError(false)
                 setMessage(data.message)
                 handleFlash()
+                localStorage.setItem('id',data.idUser)
+                localStorage.setItem('name',data.userName)
                 setTimeout(()=>{
                     navigate('/learn')
                 }, 2500)
