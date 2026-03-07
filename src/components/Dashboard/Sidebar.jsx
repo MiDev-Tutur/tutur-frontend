@@ -21,6 +21,13 @@ const Sidebar = () =>{
         { icon: profile, to: '/profile', label: 'PROFILE' },
     ];
     
+    const handleLogout = () =>{
+        localStorage.removeItem('id')
+        localStorage.removeItem('name')
+        localStorage.removeItem('local')
+        navigate('/login')
+    }
+
     return(
         <div className="w-64 bg-white border-r border-gray-200 p-5 flex flex-col justify-between fixed left-0 top-0 h-screen">
             <div className="text-4xl font-bold text-zinc-800">Tutur.</div>
@@ -44,7 +51,7 @@ const Sidebar = () =>{
             ))}
             </nav>
             <button
-                onClick={() => navigate('/login')}
+                onClick={handleLogout}
                 className="w-full max-w-xs flex justify-center gap-3 items-center bg-[#E70101] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#C00303] font-medium py-4 px-6 rounded-xl transition transform hover:translate-y-1 duration-300"
             >
                 <img className='w-5' src={logout} alt="" />

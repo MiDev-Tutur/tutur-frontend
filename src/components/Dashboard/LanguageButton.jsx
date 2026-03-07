@@ -1,11 +1,8 @@
-import { useNavigate } from "react-router-dom";
-
 const LanguageButton = ({language}) =>{
-    const navigate = useNavigate()
 
     const handleSelect = (language) => {
         localStorage.setItem('local', language)
-        navigate('/learn')
+        window.location.href = '/learn';
     };
 
     return(
