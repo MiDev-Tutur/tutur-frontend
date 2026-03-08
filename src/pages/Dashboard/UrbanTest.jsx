@@ -41,6 +41,7 @@ const UrbanTest = () => {
     const checkAnswer = () => {
 
         const correct = questions.answer
+        console.log(correct)
 
         const isCorrect =
             correct.length === selectedOptions.length &&
