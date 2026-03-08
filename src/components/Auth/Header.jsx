@@ -5,25 +5,40 @@ import { useState } from "react"
 
 const Header = () =>{
     const [showDropdown, setShowDropdown] = useState(false);
-        
+    
     const languages = [
         {
             name: 'English',
-            flag: english
+            flag: english,
+            dominant: "english"
         },
         {
             name: 'Bahasa Indonesia',
-            flag: indonesia
+            flag: indonesia,
+            dominant: "indonesian"
         },
+        {
+            name: 'Malay',
+            flag: english,
+            dominant: "malay"
+        },
+
     ];
     const [selectedLanguage, setSelectedLanguage] = useState(languages[1].name);
     const [selectedFlag, setSelectedFlag] = useState(languages[1].flag);
 
+    const handleDominant = (lang) =>{
+        localStorage.setItem("dominant", lang.dominant)
+        setSelectedLanguage(lang.name);
+        setSelectedFlag(lang.flag);
+        setShowDropdown(false);
+    }
+    
     return(
         <header className="flex justify-between items-center px-8 py-6 relative">
             <div className="text-4xl font-bold text-zinc-800">Tutur.</div>
             
-            <div className="relative">
+            {/* <div className="relative">
                 <button
                     onClick={() => setShowDropdown(!showDropdown)}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-50 cursor-pointer transition"
@@ -38,11 +53,7 @@ const Header = () =>{
                         {languages.map((lang) => (
                         <button
                             key={lang.name}
-                            onClick={() => {
-                                setSelectedLanguage(lang.name);
-                                setSelectedFlag(lang.flag);
-                                setShowDropdown(false);
-                            }}
+                            onClick={() => handleDominant(lang)}
                             className="w-full flex cursor-pointer items-center gap-3 text-left px-4 py-3 hover:bg-gray-100 transition first:rounded-t-lg last:rounded-b-lg"
                         >
                             <img src={lang.flag} alt={lang.name} className="w-5 h-5" />
@@ -51,7 +62,7 @@ const Header = () =>{
                         ))}
                     </div>
                 )}
-            </div>
+            </div> */}
         </header>
     )
 }

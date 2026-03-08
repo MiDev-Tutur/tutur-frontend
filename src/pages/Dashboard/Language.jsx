@@ -8,9 +8,13 @@ const Language = () =>{
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await fetch("http://localhost:8000/api/tutur/getalllocallanguage");
+                const res = await fetch("http://localhost:8000/api/tutur/languages");
                 const data = await res.json();
-                setLanguages(data.languages)
+                const localLanguages = data
+                    .filter(item => item.languageType === "local")
+                    .map(item => item.languageName);
+
+                setLanguages(localLanguages);
             } catch (err) {
                 console.error(err);
             }

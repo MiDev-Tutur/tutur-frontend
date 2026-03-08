@@ -1,7 +1,7 @@
 const LanguageButton = ({language}) =>{
 
     const handleSelect = (language) => {
-        localStorage.setItem('local', language)
+        localStorage.setItem('local', language.toLowerCase().trim().replace(/\s+/g, "_"))
         window.location.href = '/learn';
     };
 

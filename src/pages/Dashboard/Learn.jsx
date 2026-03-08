@@ -4,6 +4,7 @@ import Sidebar from "../../components/Dashboard/Sidebar";
 import { useNavigate } from "react-router-dom";
 import LessonHeader from "../../components/Dashboard/LessonHeader";
 import LanguageButton from "../../components/Dashboard/LanguageButton";
+import Navbar from "../../components/Dashboard/Navbar";
 
 export default function Learn() {
 
@@ -11,118 +12,116 @@ export default function Learn() {
     const [isLocal, setIsLocal] = useState(true);
     const [languages, setLanguages] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedLocal, setSelectedLocal] = useState(
+        localStorage.getItem("local")
+    );
 
     const navigate = useNavigate();
     const cancelled = useRef(false);
 
     const id = localStorage.getItem("id");
     const name = localStorage.getItem("name");
-    let local = localStorage.getItem("local")
 
     useEffect(() => {
-        if(!name && !id){
+        if (!name || !id) {
             navigate("/login");
         }
-    }, [id, name]);
+    }, [id, name, navigate]);
 
-    const getTypeByStep = (step) => {
 
-        const mod = step % 3;
+    const fetchLevels = async (localLang) => {
 
-        switch(mod){
-            case 1: return "word"
-            case 2: return "phrase"
-            default: return "sentence"
-        }
-    }
+        try {
 
-    const fetchLevels = async (local) => {
-
-        let step = 1;
-        const newLevels = [];
-
-        while(true){
-
-            const type = getTypeByStep(step);
-
-            try{
-
-                const res = await fetch(
-                    `http://localhost:8000/api/tutur/course/${type}/${step}/indonesian/${local}`
-                );
-
-                if(!res.ok) break;
-
-                const data = await res.json();
-
-                if(!data?.questions?.length) break;
-
-                newLevels.push(data);
-
-                step++;
-
-            }catch(err){
-                console.error(err);
-                break;
-            }
-        }
-
-        if(cancelled.current){
-            setLevels(newLevels);
-        }
-
-        setLoading(false);
-    }
-
-    const getData = async () => {
-
-        try{
+            const dominant = localStorage.getItem("dominant");
 
             const res = await fetch(
-                "http://localhost:8000/api/tutur/getalllocallanguage"
+                `http://127.0.0.1:8000/api/tutur/course/${dominant}/${localLang}`
             );
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch levels");
+            }
 
             const data = await res.json();
 
-            setLanguages(data.languages);
+            if (cancelled.current) {
+                setLevels(data.courses);
+                setLoading(false);
+            }
 
-        }catch(err){
+        } catch (err) {
+            console.error(err);
+
+            if (!cancelled.current) {
+                setLoading(false);
+            }
+        }
+    };
+
+
+    const getData = async () => {
+
+        try {
+
+            const res = await fetch(
+                "http://localhost:8000/api/tutur/languages"
+            );
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch languages");
+            }
+
+            const data = await res.json();
+
+            const localLanguages = data
+                .filter(item => item.languageType === "local")
+                .map(item => item.languageName);
+
+            setLanguages(localLanguages);
+
+        } catch (err) {
             console.error(err);
         }
-    }
+    };
+
 
     useEffect(() => {
 
-        local = localStorage.getItem("local");
-
+        const local = localStorage.getItem("local");
+        setSelectedLocal(local.replace(/_/g, " "));
         const hasLocal = local !== null && local !== "false";
-        
+
         getData();
-        if(hasLocal){
+
+        if (hasLocal) {
             fetchLevels(local);
-        }else{
+        } else {
             setIsLocal(false);
             setLoading(false);
         }
 
         return () => {
             cancelled.current = true;
-        }
+        };
 
     }, []);
 
 
     const handleSelected = (e) => {
 
-        const selected = e.target.value.toLowerCase();
+        const selected = e.target.value
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, "_");
 
         localStorage.setItem("local", selected);
 
+        setSelectedLocal(selected.replace(/_/g, " "));
         setLevels([]);
         setLoading(true);
-
         fetchLevels(selected);
-    }
+    };
 
     return (
 
@@ -132,29 +131,7 @@ export default function Learn() {
 
             <div className="flex-1 flex flex-col ml-64 overflow-y-auto">
 
-                <div className="bg-white border-b border-gray-200 px-8 py-4 flex justify-end gap-6">
-
-                    <div className="flex items-center gap-2">
-                        <span className="text-2xl">🇺🇸</span>
-                        <span className="font-semibold text-gray-700">18</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <span className="text-2xl">👤</span>
-                        <span className="font-semibold text-gray-400">0</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <span className="text-2xl">🌍</span>
-                        <span className="font-semibold text-cyan-500">572</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <span className="text-2xl">❤️</span>
-                        <span className="font-semibold text-red-500">5</span>
-                    </div>
-
-                </div>
+                <Navbar fetchLevels={fetchLevels}></Navbar>
 
                 <div className="flex-1 flex gap-8 p-8">
 
@@ -229,7 +206,7 @@ export default function Learn() {
 
                                         <select
                                             onChange={handleSelected}
-                                            value={local || "minang"}
+                                            value={selectedLocal}
                                             className="w-full bg-white border border-gray-200 rounded-xl p-3 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400"
                                         >
 
@@ -238,10 +215,7 @@ export default function Learn() {
                                                     key={language}
                                                     value={language.toLowerCase()}
                                                 >
-                                                    {language
-                                                        .replace(/_/g, " ")
-                                                        .replace(/\b\w/g, (c) => c.toUpperCase())
-                                                    }
+                                                    {language || Kosong}
                                                 </option>
                                             ))}
 
