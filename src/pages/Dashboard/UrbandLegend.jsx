@@ -22,21 +22,23 @@ export default function UrbanLegend() {
     }, []);
 
     const handleRead = (legend) =>{
-        navigate('/legend-story', {state: {legend}})
+        navigate('/legend-story', {
+            state:{
+                    legend,
+                }
+            }
+        )
     }
 
     const handleTest = async(legend) =>{
-        const title = legend.title
-            .replace(/[_\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : "")
-            .replace(/^./, c => c.toLowerCase());
-
-        const lang = legend.lang
+        const title = legend.title.toLowerCase().replace(/[_ ]+(.)/g, (_, c) => c.toUpperCase());
+        const lang = legend.lang.replace(/[_ ]/g, '');
 
         try {
             const res = await fetch(`http://127.0.0.1:8000/api/tutur/urban-legends/test/${lang}/${title}`)
             const data = await res.json();
 
-            navigate('/question', {state: {data}})
+            navigate('/urban-test', {state: {data}})
         } catch (error) {
             console.err(error)
         }

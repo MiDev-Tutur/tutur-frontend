@@ -44,7 +44,6 @@ export default function Learn() {
             }
 
             const data = await res.json();
-            console.log(data.courses)
 
             if (cancelled.current) {
                 setLevels(data.courses);
@@ -90,12 +89,12 @@ export default function Learn() {
     useEffect(() => {
 
         const local = localStorage.getItem("local");
-        setSelectedLocal(local.replace(/_/g, " "));
         const hasLocal = local !== null && local !== "false";
-
+        
         getData();
-
+        
         if (hasLocal) {
+            setSelectedLocal(local.replace(/_/g, " "));
             fetchLevels(local);
         } else {
             setIsLocal(false);

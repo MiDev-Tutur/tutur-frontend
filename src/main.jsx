@@ -16,6 +16,7 @@ import Question from "./pages/Dashboard/Question"
 import UrbanLegend from "./pages/Dashboard/UrbandLegend"
 import LegendStory from "./pages/Dashboard/LegendStory"
 import Song from "./pages/Dashboard/Song"
+import UrbanTest from "./pages/Dashboard/UrbanTest"
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
   {
     path: '/song',
     element: <Song></Song>
+  },
+  {
+    path: '/urban-test',
+    element: <UrbanTest/>
   },
 ])
 
