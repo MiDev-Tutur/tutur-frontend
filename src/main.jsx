@@ -13,6 +13,9 @@ import Community from "./pages/Dashboard/Community"
 import Badge from "./pages/Dashboard/Badge"
 import Language from "./pages/Dashboard/Language"
 import Question from "./pages/Dashboard/Question"
+import UrbanLegend from "./pages/Dashboard/UrbandLegend"
+import LegendStory from "./pages/Dashboard/LegendStory"
+import Song from "./pages/Dashboard/Song"
 
 const router = createBrowserRouter([
   {
@@ -58,6 +61,18 @@ const router = createBrowserRouter([
   {
     path: '/question',
     element:< Question/>
+  },
+  {
+    path: '/urban-legend',
+    element: <UrbanLegend/>
+  },
+  {
+    path: '/legend-story',
+    element: <LegendStory/>
+  },
+  {
+    path: '/song',
+    element: <Song></Song>
   },
 ])
 

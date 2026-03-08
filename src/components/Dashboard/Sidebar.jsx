@@ -1,10 +1,12 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import learn from "../../assets/img/logo/book.png"
 import lang from "../../assets/img/logo/lang.png"
+import legend from "../../assets/img/logo/legend.png"
 import subscribe from "../../assets/img/logo/subs.png"
 import community from "../../assets/img/logo/community.png"
 import badge from "../../assets/img/logo/badge.png"
 import profile from "../../assets/img/logo/profile.png"
+import song from "../../assets/img/logo/song.png"
 import logout from "../../assets/img/logo/logout.png"
 
 const Sidebar = () =>{
@@ -15,8 +17,10 @@ const Sidebar = () =>{
     const sidebarMenus = [
         { icon: learn, to: '/learn', label: 'LEARN'},
         { icon: lang, to: '/language', label: 'LANGUAGE'},
-        { icon: subscribe, to: '/subscriptions', label: 'SUBSCRIBE' },
+        { icon: legend, to: '/urban-legend', label: 'URBAN LEGEND' },
+        { icon: song, to: '/song', label: 'SONG' },
         { icon: community, to: '/community', label: 'COMMUNITY' },
+        { icon: subscribe, to: '/subscriptions', label: 'SUBSCRIBE' },
         { icon: badge, to: '/badge', label: 'BADGE' },
         { icon: profile, to: '/profile', label: 'PROFILE' },
     ];

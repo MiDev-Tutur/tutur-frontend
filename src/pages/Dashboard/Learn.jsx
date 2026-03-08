@@ -44,6 +44,7 @@ export default function Learn() {
             }
 
             const data = await res.json();
+            console.log(data.courses)
 
             if (cancelled.current) {
                 setLevels(data.courses);
