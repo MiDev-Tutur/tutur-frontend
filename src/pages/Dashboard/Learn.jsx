@@ -108,7 +108,7 @@ export default function Learn() {
         try {
             const dominant = localStorage.getItem("dominant");
             const res = await fetch(
-                `http://127.0.0.1:8000/api/tutur/course/${dominant}/${localLang}`
+                `http://103.143.71.178:8000/api/tutur/course/${dominant}/${localLang}`
             );
 
             if (!res.ok) throw new Error("Failed to fetch levels");
