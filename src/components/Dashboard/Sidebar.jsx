@@ -4,6 +4,7 @@ import lang from "../../assets/img/logo/lang.png"
 import legend from "../../assets/img/logo/legend.png"
 import community from "../../assets/img/logo/community.png"
 import profile from "../../assets/img/logo/profile.png"
+import translate from "../../assets/img/logo/translate.png"
 import song from "../../assets/img/logo/song.png"
 import logout from "../../assets/img/logo/logout.png"
 
@@ -15,6 +16,7 @@ const Sidebar = () =>{
     const sidebarMenus = [
         { icon: learn, to: '/learn', label: 'LEARN'},
         { icon: lang, to: '/language', label: 'LANGUAGE'},
+        { icon: translate, to: '/translate', label: 'TRANSLATE'},
         { icon: legend, to: '/urban-legend', label: 'URBAN LEGEND' },
         { icon: song, to: '/song', label: 'SONG' },
         { icon: community, to: '/community', label: 'COMMUNITY' },

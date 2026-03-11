@@ -1,44 +1,33 @@
 import { useNavigate } from "react-router-dom";
-import star from "../../assets/img/star.png"
+import star from "../../assets/img/star.png";
 
 const Level = ({ level, index, currentLevel }) => {
+    const navigate = useNavigate();
 
-    const navigate = useNavigate()
+    const levelNumber = index + 1;
+    const isUnlocked = levelNumber <= currentLevel;
 
-    const levelNumber = index + 1
-
-    const isUnlocked = levelNumber <= currentLevel
-
-    const handleLevel = (e) => {
-
-        if (!isUnlocked) return
-
-        e.preventDefault()
-
-        navigate("/question", {
-            state: level
-        })
-
-    }
+    const handleLevel = () => {
+        if (!isUnlocked) return;
+        navigate("/question", { state: level });
+    };
 
     return (
-
         <button
             disabled={!isUnlocked}
-            onClick={(e) => handleLevel(e)}
+            onClick={handleLevel}
             className={`
-                w-20 rounded-full font-medium p-5 transition transform text-xl duration-300
-
+                w-20 h-20 rounded-full p-5 flex items-center justify-center 
+                transition-all duration-300
                 ${isUnlocked
-                    ? "bg-[#0074ba] cursor-pointer hover:shadow-none shadow-[0_4px_0_#02456d] hover:translate-y-1"
+                    ? "bg-[#0074ba] cursor-pointer hover:translate-y-1 shadow-[0_4px_0_#02456d] hover:shadow-none"
                     : "bg-gray-300 cursor-not-allowed"
                 }
             `}
         >
-            <img src={star} alt="" />
+            <img src={star} alt="" className="w-10" />
         </button>
+    );
+};
 
-    )
-
-}
-export default Level
+export default Level;

@@ -1,4 +1,6 @@
 export default function ProfileHeader() {
+    const name = localStorage.getItem('name')
+
     return (
         <div className="space-y-6 flex gap-10">
             {/* Character Card */}
@@ -51,9 +53,9 @@ export default function ProfileHeader() {
 
             {/* User Info Section */}
             <div className="bg-white w-full rounded-2xl p-8 shadow-lg border-2 border-gray-100">
-                <h1 className="text-4xl font-black text-gray-900 mb-2">Kira Sunshine</h1>
-                <p className="text-gray-500 text-lg mb-6">kira_2024</p>
-                <p className="text-gray-600 mb-6">Joined December 2024</p>
+                <h1 className="text-4xl font-black text-gray-900 mb-2">{name}</h1>
+                <p className="text-gray-500 text-lg mb-6">{name.toLowerCase()}</p>
+                <p className="text-gray-600 mb-6">Joined December 2026</p>
 
                 {/* Following/Followers Stats */}
                 <div className="flex gap-8 mb-8">
