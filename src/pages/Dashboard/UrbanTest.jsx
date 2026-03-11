@@ -17,16 +17,16 @@ const UrbanTest = () => {
     const [wrongOption, setWrongOption] = useState([])
     const [correctOption, setCorrectOption] = useState([])
 
-    const [proggPercentage, setProggPercentage] = useState(0)
+    const [progress, setProgress] = useState(0)
 
     const isMultiple = questions.answer.length > 1
+
 
     const handleAnswer = (option) => {
 
         if(isMultiple){
 
             if(selectedOptions.includes(option)) return
-
             if(selectedOptions.length >= questions.answer.length) return
 
             setSelectedOptions(prev => [...prev, option])
@@ -36,7 +36,9 @@ const UrbanTest = () => {
             setSelectedOptions([option])
 
         }
+
     }
+
 
     const checkAnswer = () => {
 
@@ -56,11 +58,11 @@ const UrbanTest = () => {
                 const nextIndex = questionIndex + 1
                 const nextLevel = subLevel + 1
 
-                const progress = (nextLevel / countSubLevel) * 100
-                setProggPercentage(Math.round(progress))
+                const newProgress = (nextLevel / countSubLevel) * 100
+                setProgress(newProgress)
 
                 if(nextIndex >= countSubLevel){
-                    navigate('/urban-legend')
+                    navigate("/urban-legend")
                     return
                 }
 
@@ -72,167 +74,180 @@ const UrbanTest = () => {
                 setSelectedOptions([])
                 setCorrectOption([])
 
-            }, 800)
+            },800)
 
         }else{
 
             setWrongOption(selectedOptions)
 
             setTimeout(() => {
+
                 setWrongOption([])
                 setSelectedOptions([])
-            }, 800)
+
+            },800)
 
         }
+
     }
+
 
     const progressWidth = (subLevel / countSubLevel) * 100
 
+
     return (
 
-        <div className="bg-linear-to-br from-slate-50 via-blue-50 to-slate-50 min-h-screen">
+        <div className="min-h-screen bg-white">
 
-            <div className="flex items-center justify-center min-h-screen p-4">
+            {/* HEADER */}
+            <div className="max-w-7xl mx-auto px-10 pt-10">
 
-                <div className="w-full max-w-2xl">
+                <div className="flex items-center justify-between mb-6">
 
-                    {/* Progress */}
-                    <div className="mb-12">
+                    <button
+                        onClick={()=>navigate("/urban-legend")}
+                        className="text-gray-600 font-semibold hover:text-black"
+                    >
+                        ← Back
+                    </button>
 
-                        <div className="flex items-center justify-between mb-3">
+                    <span className="text-gray-500 font-medium">
+                        Question {subLevel} / {countSubLevel}
+                    </span>
 
-                            <span className="text-sm font-medium text-slate-600">
-                                Question {subLevel} of {countSubLevel}
-                            </span>
+                </div>
 
-                            <span className="text-sm font-medium text-slate-600">
-                                {proggPercentage}%
-                            </span>
 
-                        </div>
+                {/* Progress */}
+                <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
 
-                        <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-
-                            <div
-                                className="h-full bg-linear-to-r from-blue-500 to-cyan-500 rounded-full"
-                                style={{ width: `${progressWidth}%` }}
-                            />
-
-                        </div>
-
-                    </div>
-
-                    {/* Question */}
-                    <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-
-                        <div className="mb-6">
-
-                            {isMultiple && (
-                                <p className="text-sm text-slate-500 mb-2">
-                                    Fill {questions.answer.length} blanks in order
-                                </p>
-                            )}
-
-                            <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
-                                {questions.question}
-                            </h1>
-
-                        </div>
-
-                        {/* Options */}
-                        <div className="space-y-4">
-
-                            {questions.options.map(option => {
-
-                                const isSelected = selectedOptions.includes(option)
-                                const isWrong = wrongOption.includes(option)
-                                const isCorrect = correctOption.includes(option)
-
-                                const order = selectedOptions.indexOf(option) + 1
-
-                                return (
-
-                                    <label key={option} className="block cursor-pointer">
-
-                                        <input
-                                            type={isMultiple ? "checkbox" : "radio"}
-                                            checked={isSelected}
-                                            onChange={() => handleAnswer(option)}
-                                            className="hidden"
-                                        />
-
-                                        <div
-                                            className={`
-                                                flex items-center justify-between p-5 border-2 rounded-xl transition-all duration-300
-                                                ${isWrong
-                                                    ? "border-red-500 bg-red-100"
-                                                    : isCorrect
-                                                        ? "border-green-500 bg-green-100"
-                                                        : isSelected
-                                                            ? "border-blue-500 bg-blue-50"
-                                                            : "border-slate-200 hover:border-blue-400 hover:bg-blue-50"
-                                                }
-                                            `}
-                                        >
-
-                                            <span
-                                                className={`
-                                                    text-lg font-medium
-                                                    ${isWrong
-                                                        ? "text-red-600"
-                                                        : isCorrect
-                                                            ? "text-green-600"
-                                                            : isSelected
-                                                                ? "text-blue-600"
-                                                                : "text-slate-700"
-                                                    }
-                                                `}
-                                            >
-                                                {option}
-                                            </span>
-
-                                            {/* ORDER NUMBER (ONLY MULTIPLE) */}
-                                            {isMultiple && isSelected && (
-                                                <div className="ml-4 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white font-bold">
-                                                    {order}
-                                                </div>
-                                            )}
-
-                                        </div>
-
-                                    </label>
-
-                                )
-
-                            })}
-
-                        </div>
-
-                        {/* Submit */}
-                        <button
-                            onClick={checkAnswer}
-                            disabled={selectedOptions.length !== questions.answer.length}
-                            className="mt-6 w-full bg-blue-500 hover:bg-blue-600 disabled:bg-slate-300 text-white py-3 rounded-xl transition"
-                        >
-                            Submit Answer
-                        </button>
-
-                        <div className="mt-12 pt-8 border-t border-slate-200">
-
-                            <p className="text-sm text-slate-500 text-center">
-                                Select the correct answer
-                            </p>
-
-                        </div>
-
-                    </div>
+                    <div
+                        className="h-full bg-blue-500 transition-all duration-500"
+                        style={{width:`${progressWidth}%`}}
+                    />
 
                 </div>
 
             </div>
 
+
+
+            {/* MAIN */}
+            <div className="max-w-7xl mx-auto px-10 py-16 grid grid-cols-2 gap-16 items-start">
+
+
+                {/* LEFT - QUESTION */}
+                <div>
+
+                    {isMultiple && (
+                        <p className="text-sm text-gray-500 mb-4">
+                            Fill {questions.answer.length} blanks in order
+                        </p>
+                    )}
+
+                    <h1 className="text-4xl font-bold text-gray-900 leading-snug mb-6">
+                        {questions.question}
+                    </h1>
+
+                    
+
+                </div>
+
+
+
+                {/* RIGHT - OPTIONS */}
+                <div className="space-y-2">
+                    <p className="text-gray-500 text-lg">
+                        Select the correct answers to continue the legend.
+                    </p>
+
+                    {questions.options.map(option => {
+
+                        const isSelected = selectedOptions.includes(option)
+                        const isWrong = wrongOption.includes(option)
+                        const isCorrect = correctOption.includes(option)
+
+                        const order = selectedOptions.indexOf(option) + 1
+
+                        return(
+
+                            <button
+                                key={option}
+                                onClick={()=>handleAnswer(option)}
+                                className={`
+                                    w-full flex items-center justify-between
+                                    text-left p-6 rounded-xl border-2
+                                    cursor-pointer
+                                    transition-all duration-200 font-semibold text-lg
+
+                                    ${isWrong
+                                        ? "border-red-500 bg-red-50"
+                                        : isCorrect
+                                        ? "border-green-500 bg-green-50 scale-105"
+                                        : isSelected
+                                        ? "border-blue-500 bg-blue-50"
+                                        : "border-gray-200 hover:border-blue-400 hover:bg-blue-50"
+                                    }
+                                `}
+                            >
+
+                                {option}
+
+                                {isMultiple && isSelected && (
+
+                                    <div className="ml-4 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white font-bold">
+                                        {order}
+                                    </div>
+
+                                )}
+
+                            </button>
+
+                        )
+
+                    })}
+
+
+
+                    {/* SUBMIT */}
+                    <button
+                        onClick={checkAnswer}
+                        disabled={selectedOptions.length !== questions.answer.length}
+                        className="
+                            mt-6 w-full py-4 rounded-xl font-semibold text-lg
+                            bg-[#0074ba] text-white cursor-pointer hover:shadow-none hover:translate-y-1 disabled:translate-0 shadow-[0_4px_0_#02456d]
+                            disabled:bg-gray-300 disabled:shadow-[0_4px_0_#bec4c8] disabled:cursor-no-drop
+                            transition
+                        "
+                    >
+                        Submit Answer
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            {/* FEEDBACK */}
+            {(correctOption.length > 0 || wrongOption.length > 0) && (
+
+                <div className={`w-full py-6 ${correctOption.length ? "bg-green-100" : "bg-red-100"}`}>
+
+                    <div className="max-w-6xl mx-auto px-10">
+
+                        <span className={`font-bold text-lg ${correctOption.length ? "text-green-700" : "text-red-700"}`}>
+                            {correctOption.length ? "Correct! 🎉" : "Try Again"}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            )}
+
         </div>
     )
+
 }
 
 export default UrbanTest

@@ -30,7 +30,13 @@ const Language = () =>{
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col ml-64 overflow-y-auto">
-                <div className="w-full max-w-6xl mx-auto p-6">
+                <div className="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center">
+                    <h1 className="text-3xl font-bold text-gray-800">Languages</h1>
+                    <div className="flex gap-4 text-sm font-semibold text-gray-600">
+                        <span>Learn Local Language From Your Domaint Language</span>
+                    </div>
+                </div>
+                <div className="w-full max-w-6xl mx-auto bg-white rounded-3xl p-6 shadow-md border border-gray-200 mt-10">
                     <div className="text-center mb-12">
                         <h1 className="text-5xl font-bold text-gray-900 mb-3">Choose Your Language</h1>
                         <p className="text-xl text-gray-600">Select your preferred language to start learning</p>

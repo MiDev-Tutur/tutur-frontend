@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import Sidebar from '../../components/Dashboard/Sidebar';
 import { useNavigate } from 'react-router-dom';
+import urban from "../../assets/img/urban-legend.png"
+import minang from "../../assets/img/minang.png"
+import dayak from "../../assets/img/dayak.png"
+import jawa from "../../assets/img/jawa.png"
+import betawi from "../../assets/img/Betawi.png"
 
 export default function UrbanLegend() {
     const navigate = useNavigate();
@@ -44,6 +49,19 @@ export default function UrbanLegend() {
         }
     }
 
+    const getImagePreview = (language) =>{
+        const flags = {
+            minang: minang,
+            java: jawa,
+            batak_toba: minang,
+            iban: dayak,
+            melayu_serawak: betawi
+        }
+
+        const key = language.toLowerCase().trim().replace(/\s+/g, "_")
+        return flags[key]
+    }
+
     return (
         <div className="flex h-screen bg-gray-50 overflow-hidden">
             {/* Left Sidebar */}
@@ -55,7 +73,7 @@ export default function UrbanLegend() {
                 <div className="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center">
                     <h1 className="text-3xl font-bold text-gray-800">Urban Legends</h1>
                     <div className="flex gap-4 text-sm font-semibold text-gray-600">
-                        <span>Learn Indonesian Folklore & Culture</span>
+                        <span>Learn ASEAN Folklore & Culture</span>
                     </div>
                 </div>
 
@@ -63,9 +81,28 @@ export default function UrbanLegend() {
                 <div className="flex-1 overflow-auto p-8">
                     <div className="max-w-6xl mx-auto">
                         {/* Info Card */}
-                        <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl p-8 mb-8 text-white">
-                        <h2 className="text-2xl font-bold mb-2">Discover Indonesian Legends</h2>
-                        <p className="text-lg opacity-90">Explore the mystical stories and spirits from different regions of Indonesia while learning the language and culture.</p>
+                        <div className="relative bg-white rounded-3xl p-8 mb-8 text-neutral-900 shadow-md border border-gray-200 overflow-hidden">
+
+                            {/* background image */}
+                            <img
+                                src={urban}
+                                alt="urban background"
+                                className="absolute inset-0 w-full h-full object-cover  bg-blue-600"
+                            />
+                            
+                            <div className="absolute inset-0 bg-black/10"></div>
+
+                            {/* content */}
+                            <div className="relative text-white z-10">
+                                <h2 className="text-2xl font-bold mb-2">
+                                    Discover Urban Legends
+                                </h2>
+
+                                <p className="text-lg opacity-90">
+                                    Explore the mystical stories and spirits from different countries of ASEAN while learning the language and culture.
+                                </p>
+                            </div>
+
                         </div>
 
                         {/* Legends Grid */}
@@ -73,26 +110,71 @@ export default function UrbanLegend() {
                         {legends.map((legend) => (
                             <div
                                 key={legend.id}
-                                className="bg-white rounded-2xl p-6 cursor-pointer transition-all transform hover:scale-105 hover:shadow-lg border-2 border-gray-200 hover:border-purple-300'
+                                className="
+                                bg-white rounded-2xl overflow-hidden
+                                transition-all duration-300
+                                hover:-translate-y-2 hover:shadow-xl
+                                border border-gray-200 hover:border-gray-300
+                                group
                                 "
                             >
-                                <div className="bg-linear-to-br rounded-xl p-4 mb-4 text-center from-purple-400 to-pink-400">
-                                    <span className="text-6xl">{legend.icon}</span>
+
+                                {/* Image */}
+                                <div className="h-64 relative overflow-hidden">
+                                    <img
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        src={getImagePreview(legend.lang)}
+                                        alt=""
+                                    />
+
+                                    {/* gradient overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+
+                                    {/* region tag */}
+                                    <span className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold text-neutral-900 shadow">
+                                        {legend.lang.toUpperCase().replace(/_/g, " ")}
+                                    </span>
                                 </div>
-                                
-                                <h3 className="text-xl font-bold text-gray-800 mb-1">{legend.title}</h3>
-                                <p className="text-sm text-cyan-600 font-semibold mb-3">{legend.region}</p>
-                                
-                                <p className="text-sm text-gray-600 mb-4">{legend.description}</p>
-                                
-                                <div className='flex items-center justify-between gap-8'>
-                                    <button onClick={() => handleRead(legend)} className="w-full bg-linear-to-r from-purple-500 to-pink-500 text-white font-bold py-2 rounded-xl hover:shadow-lg transition-all">
-                                        Read
-                                    </button>
-                                    <button onClick={() => handleTest(legend)} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-2 rounded-xl hover:shadow-lg transition-all">
-                                        Test
-                                    </button>
+
+                                {/* Content */}
+                                <div className="p-6">
+
+                                    <h3 className="text-xl font-bold text-gray-800 mb-3 transition">
+                                        {legend.title}
+                                    </h3>
+
+                                    {/* Story Preview */}
+                                    <div className="relative mb-5">
+                                        <p className="text-sm text-gray-600 indent-5 leading-relaxed line-clamp-3">
+                                            {legend.story[0]}
+                                        </p>
+
+                                        <div className="absolute bottom-0 left-0 w-full h-6 bg-gradient-to-t from-white to-transparent"></div>
+                                    </div>
+
+                                    {/* Buttons */}
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={() => handleRead(legend)}
+                                            className="
+                                                w-full max-w-xs  bg-[#0074ba] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#02456d] font-medium py-2 px-6 rounded-xl transition transform text-lg hover:translate-y-1 duration-300
+                                            "
+                                        >
+                                            Read
+                                        </button>
+
+                                        <button
+                                            onClick={() => handleTest(legend)}
+                                            className="
+                                                w-full max-w-xs  bg-[#00d26a] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#018041] font-medium py-2 px-6 rounded-xl transition transform text-lg hover:translate-y-1 duration-300
+                                            "
+                                        >
+                                            Test
+                                        </button>
+                                    </div>
+
                                 </div>
+
                             </div>
                         ))}
                         </div>

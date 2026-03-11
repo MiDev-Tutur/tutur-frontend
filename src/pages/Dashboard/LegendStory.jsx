@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import TypewriterText from "../../components/Dashboard/TypewriterText";
+import toba from "../../assets/img/taoToba.jpg"
+import malin from "../../assets/img/malin.png"
+import rorojonggrang from "../../assets/img/rorojonggrang.webp"
+import apoisaloi from "../../assets/img/apoisaloi.jpg"
+import serawak from "../../assets/img/serawak.jpg"
 
 export default function LegendStory() {
-
     const navigate = useNavigate();
     const location = useLocation();
     const legend = location.state?.legend;
@@ -14,17 +18,15 @@ export default function LegendStory() {
 
     if (!legend) {
         return (
-            <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center bg-gray-100">
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-4">
-                        Legend not found
-                    </h1>
+                    <h1 className="text-3xl font-bold mb-4">Legend not found</h1>
 
                     <button
                         onClick={() => navigate("/urban-legend")}
-                        className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
+                        className="bg-green-500 text-white px-6 py-3 rounded-xl font-bold shadow-[0_4px_0_#15803d]"
                     >
-                        Back to Urban Legends
+                        Back
                     </button>
                 </div>
             </div>
@@ -32,7 +34,6 @@ export default function LegendStory() {
     }
 
     const nextParagraph = () => {
-
         if (!typingDone) {
             setSkipTyping(true);
             setTypingDone(true);
@@ -47,7 +48,6 @@ export default function LegendStory() {
     };
 
     const previousParagraph = () => {
-
         if (currentParagraph > 0) {
             setCurrentParagraph((prev) => prev - 1);
             setTypingDone(false);
@@ -55,139 +55,174 @@ export default function LegendStory() {
         }
     };
 
-    const progress =
-        ((currentParagraph + 1) / legend.story.length) * 100;
+    const getImagePreview = (language) =>{
+        const flags = {
+            minang: malin,
+            java: rorojonggrang,
+            batak_toba: toba,
+            iban: apoisaloi,
+            melayu_serawak: serawak
+        }
+
+        const key = language.toLowerCase().trim().replace(/\s+/g, "_")
+        return flags[key]
+    }
+
+    const progress = ((currentParagraph + 1) / legend.story.length) * 100;
+
     const isStoryFinished =
         currentParagraph === legend.story.length - 1 && typingDone;
 
+    const handleTest = async(legend) =>{
+        const title = legend.title.toLowerCase().replace(/[_ ]+(.)/g, (_, c) => c.toUpperCase());
+        const lang = legend.lang.replace(/[_ ]/g, '');
+
+        try {
+            const res = await fetch(`http://127.0.0.1:8000/api/tutur/urban-legends/test/${lang}/${title}`)
+            const data = await res.json();
+
+            navigate('/urban-test', {state: {data}})
+        } catch (error) {
+            console.err(error)
+        }
+    }
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-
+        <div className="min-h-screen">
             {/* Header */}
-            <div className="sticky top-0 bg-white shadow-sm z-20">
-                <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-
+            <div className="max-w-7xl mx-auto pt-10 px-6">
+                <div className="flex items-center justify-between mb-6">
                     <button
                         onClick={() => navigate("/urban-legend")}
-                        className="text-gray-700 font-semibold hover:text-black"
+                        className="font-bold cursor-pointer text-gray-700 hover:text-black"
                     >
                         ← Back
                     </button>
 
-                    <h1 className="text-2xl font-bold">
+                    <h1 className="text-xl font-bold text-gray-800">
                         {legend.title}
                     </h1>
+                </div>
 
-                    <div className="w-24 h-1 bg-gray-300 rounded-full overflow-hidden">
-                        <div
-                            className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
-                            style={{ width: `${progress}%` }}
-                        />
-                    </div>
-
+                {/* Progress Bar */}
+                <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                    <div
+                        className="h-full bg-blue-500 transition-all duration-500"
+                        style={{ width: `${progress}%` }}
+                    ></div>
                 </div>
             </div>
 
-
-            {/* Main */}
-            <div className="max-w-7xl mx-auto px-6 py-12 flex gap-12">
-
-                {/* Left Section */}
-                <div className="w-1/2 text-center">
-
-                    <div
-                        className={`bg-gradient-to-br ${legend.color} rounded-3xl p-12 mb-8 shadow-2xl inline-block`}
-                    >
-                        <span className="text-8xl">
-                            {legend.icon}
-                        </span>
-                    </div>
-
-                    <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                        {legend.title}
-                    </h2>
-
-                    <p className="text-gray-600 text-lg">
-                        From {legend.region}
-                    </p>
-
+            {/* Story Scene */}
+            <div className="max-w-7xl gap-10 mx-auto px-6 py-10 flex">
+                {/* Image */}
+                <div className="w-1/2 h-96">
+                    <img
+                        className="w-full h-full rounded-2xl object-cover transition-transform duration-500 group-hover:scale-110"
+                        src={getImagePreview(legend.lang)}
+                        alt=""
+                    />
                 </div>
 
+                <div className="w-1/2 flex flex-col justify-center items-center">
+                    {/* Dialog Bubble */}
+                    <div className="bg-white rounded-3xl shadow-2xl p-10 max-w-3xl w-full relative border-2 border-gray-200">
+                        <div className="absolute top-10 -left-4 w-8 h-8 bg-white -rotate-45 border-l-2 border-t-2 border-gray-200"></div>
 
-                {/* Story Section */}
-                <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-3xl">
+                        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+                            Story
+                        </h2>
 
-                    <h3 className="text-2xl font-bold mb-6 text-gray-900">
-                        Story
-                    </h3>
-
-                    <div className="h-max text-gray-700">
-
-                        <TypewriterText
-                            key={currentParagraph}
-                            text={legend.story[currentParagraph]}
-                            speed={20}
-                            skip={skipTyping}
-                            onComplete={() => setTypingDone(true)}
-                        />
-
+                        <div className="text-lg text-gray-700 leading-relaxed min-h-[120px]">
+                            <TypewriterText
+                                key={currentParagraph}
+                                text={legend.story[currentParagraph]}
+                                speed={20}
+                                skip={skipTyping}
+                                onComplete={() => setTypingDone(true)}
+                            />
+                        </div>
                     </div>
-
-
                     {/* Navigation */}
-                    <div className="flex justify-between mt-10">
-
+                    <div className="flex gap-6 mt-10">
                         <button
                             onClick={previousParagraph}
-                            className="px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
+                            className="
+                            bg-gray-200
+                            px-8 py-3
+                            rounded-xl
+                            font-bold
+                            shadow-[0_4px_0_#9ca3af]
+                            hover:translate-y-1
+                            hover:shadow-none
+                            cursor-pointer
+                            transition
+                            "
                         >
                             Previous
                         </button>
 
                         <button
                             onClick={nextParagraph}
-                            className="px-6 py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+                            className="
+                            bg-[#00d26a] text-white
+                            px-10 py-3
+                            rounded-xl
+                            font-bold
+                            shadow-[0_4px_0_#018041]
+                            hover:translate-y-1
+                            hover:shadow-none
+                            cursor-pointer
+                            transition
+                            "
                         >
                             {currentParagraph === legend.story.length - 1
                                 ? "Finish"
                                 : "Next"}
                         </button>
-
                     </div>
-
-
                     {/* Paragraph Indicator */}
-                    <div className="text-center mt-6 text-gray-500 text-sm">
-                        Paragraph {currentParagraph + 1} of {legend.story.length}
+                    <div className="text-gray-500 text-sm mt-6">
+                        Paragraph {currentParagraph + 1} / {legend.story.length}
                     </div>
-
                 </div>
-
             </div>
 
+            {/* End Action */}
+            {isStoryFinished && (
+                <div className="flex justify-center gap-6 pb-12">
+                    <button
+                        onClick={() => navigate("/urban-legend")}
+                        className="
+                        bg-gray-200
+                        px-8 py-4
+                        rounded-xl
+                        font-bold
+                        shadow-[0_4px_0_#9ca3af]
+                        hover:translate-y-1
+                        hover:shadow-none
+                        cursor-pointer
+                        transition
+                        "
+                    >
+                        Back
+                    </button>
 
-            {/* Bottom Action Buttons */}
-            {
-                isStoryFinished && (
-                    <div className="flex gap-4 justify-center pb-12">
-
-                        <button
-                            onClick={() => navigate("/urban-legend")}
-                            className="border-2 border-gray-400 text-gray-700 font-bold py-4 px-8 rounded-xl hover:bg-gray-100"
-                        >
-                            Back to Legends
-                        </button>
-
-                        <button
-                            className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-4 px-8 rounded-xl hover:shadow-lg transform hover:scale-105 transition"
-                        >
-                            Start Learning This Legend
-                        </button>
-
-                    </div>
-                )
-            }
-
+                    <button
+                        onClick={() => handleTest(legend)}
+                        className="
+                        bg-[#0074ba] text-white cursor-pointer hover:shadow-none shadow-[0_4px_0_#02456d]
+                        px-10 py-4
+                        rounded-xl
+                        font-bold
+                        hover:translate-y-1
+                        transition
+                        "
+                    >
+                        Start Test
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

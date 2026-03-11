@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Dashboard/Sidebar"
+import songIcon from "../../assets/img/logo/song.png"
+import play from "../../assets/img/play.png"
 import { useEffect, useState } from "react";
 
 const Song = () =>{
@@ -32,29 +34,6 @@ const Song = () =>{
 
         fetchSongs();
     }, []);
-
-    const getLanguageColor = (lang) => {
-        const colors = {
-            java: 'from-orange-400 to-red-500',
-            minang: 'from-green-400 to-teal-500',
-            sunda: 'from-blue-400 to-cyan-500',
-            banjar: 'from-purple-400 to-pink-500',
-            dayak: 'from-yellow-400 to-orange-500',
-            betawi: 'from-indigo-400 to-blue-500',
-        };
-        return colors[lang] || 'from-gray-400 to-gray-600';
-    };
-
-    const formatTime = (seconds) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    };
-
-    const timeStringToSeconds = (timeStr) => {
-        const [mins, secs] = timeStr.split(':').map(Number);
-        return mins * 60 + secs;
-    };
 
     return(
         <div className="flex h-screen bg-gray-50 overflow-hidden">
@@ -89,30 +68,48 @@ const Song = () =>{
                         <div className="col-span-2 space-y-4">
                         {songs.map((song, idx) => (
                             <div
-                            key={idx}
-                            onClick={() => setSelectedSong(song)}
-                            className={`bg-white rounded-2xl p-6 cursor-pointer transition-all transform hover:scale-102 hover:shadow-lg border-2 ${
-                                selectedSong?.title === song.title
-                                ? 'border-purple-500 shadow-lg bg-purple-50'
-                                : 'border-gray-200 hover:border-purple-300'
-                            }`}
+                                key={idx}
+                                onClick={() => setSelectedSong(song)}
+                                className={`rounded-2xl p-6
+                                cursor-pointer
+                                border-2
+                                border-[#e5e7eb]
+                                transition
+                                shadow-[0_6px_0_#e5e7eb]
+                                ${
+                                    selectedSong?.title === song.title
+                                    ? 'shadow-none'
+                                    : 'hover:translate-y-0.5 hover:shadow-[0_2px_0_#e5e7eb]'
+                                }
+                                `}
                             >
-                            <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                <h3 className="text-xl font-bold text-gray-800 mb-2">{song.title}</h3>
-                                <div className="flex items-center gap-4">
-                                    <span className={`bg-gradient-to-r ${getLanguageColor(song.lang)} text-white px-4 py-2 rounded-lg font-semibold text-sm uppercase`}>
-                                    {song.lang}
-                                    </span>
-                                    <span className="text-gray-600 font-medium">
-                                    Duration: {song.end}
-                                    </span>
+                            <div className="flex items-center justify-between">
+
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                                        {song.title}
+                                    </h3>
+
+                                    <div className="flex items-center gap-3">
+
+                                        <span className={`bg-white rounded-3xl p-6 shadow-md border border-gray-200 px-3 py-1 text-xs text-neutral-500 font-semibold`}>
+                                            {song.lang.charAt(0).toUpperCase() + song.lang.slice(1)}
+                                        </span>
+
+                                        <span className="text-gray-500 font-semibold text-sm">
+                                            {song.end}
+                                        </span>
+
+                                    </div>
                                 </div>
+
+                                <div className="text-4xl">
+                                    <img className="w-10" src={songIcon} alt="" />
                                 </div>
-                                <div className="text-5xl">🎵</div>
+
                             </div>
                             </div>
-                        ))}
+                            ))}
                         </div>
 
                         {/* Song Details */}
@@ -125,10 +122,11 @@ const Song = () =>{
                                     href={selectedSong.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white font-bold py-3 rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                                    className="w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
                                 >
-                                    <span>▶</span>
-                                    Watch on YouTube
+                                    <span>Watch on</span>
+                                    <img className="w-2" src={play} alt="" />
+                                    <span>YouTube</span>
                                 </a>
                                 </div>
 
@@ -163,13 +161,6 @@ const Song = () =>{
                                     ))}
                                 </div>
                                 </div>
-
-                                <button
-                                onClick={() => navigate('/dashboard')}
-                                className="w-full mt-6 border-2 border-gray-300 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-100 transition-all"
-                                >
-                                Back to Dashboard
-                                </button>
                             </div>
                         )}
                     </div>

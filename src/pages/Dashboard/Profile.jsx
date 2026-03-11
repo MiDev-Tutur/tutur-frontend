@@ -1,32 +1,32 @@
 import Sidebar from "../../components/Dashboard/Sidebar"
 import FollowingPanel from "../../components/FollowingPanel"
 import ProfileHeader from "../../components/ProfileHeader"
-import Statistics from "../../components/Statistics"
 
-const Profile = () =>{
-    return(
-        <div className="flex h-screen bg-gray-50 overflow-hidden">
-            {/* Left Sidebar */}
-            <Sidebar></Sidebar>
+const Profile = () => {
+
+    return (
+
+        <div className="flex min-h-screen bg-gray-50">
+
+            {/* Sidebar */}
+            <Sidebar />
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col ml-64 overflow-y-auto">
-                <div className="flex gap-6 p-6">
-                    {/* Left Sidebar */}
-                    <Sidebar />
+            <div className="flex-1 ml-64 px-10 py-8">
 
-                    {/* Main Content */}
-                    <div className="flex-1 max-w-3xl">
+                {/* Profile Section */}
+                <div className="col-span-8 space-y-6">
+
+                    <div className="bg-white rounded-2xl shadow-sm p-6">
                         <ProfileHeader />
-                        <Statistics />
                     </div>
-
-                    {/* Right Panel */}
-                    <FollowingPanel />
                 </div>
             </div>
+
         </div>
+
     )
+
 }
 
 export default Profile

@@ -1,136 +1,209 @@
 import { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
+import minang from "../../assets/img/minang.png"
+import dayak from "../../assets/img/dayak.png"
+import jawa from "../../assets/img/jawa.png"
+import betawi from "../../assets/img/Betawi.png"
 
-const Question = () =>{
+const Question = () => {
+
     const location = useLocation()
     const navigate = useNavigate()
     const data = location.state
+
     const [subLevel, setSubLevel] = useState(1)
     const countSubLevel = data.questions.length
-    const [proggPercentage, setProggPercentage] = useState(0)
+
+    const [progress, setProgress] = useState(0)
     const [questions, setQuestions] = useState(data.questions[0])
-    const [proggBar, setProggBar] = useState(0)
 
     const [selectedOption, setSelectedOption] = useState(null)
     const [wrongOption, setWrongOption] = useState(null)
     const [correctOption, setCorrectOption] = useState(null)
 
-    const handleAnswer = (option) =>{
-        setSelectedOption(option)
+    const updateLevel = async () => {
+        try {
 
-        if(option === questions.answer){
-            setCorrectOption(option)
+            const idUser = localStorage.getItem("id")
+            const dominant = localStorage.getItem("dominant")
+            const local = localStorage.getItem("local")
 
-            setTimeout(() => {
-                setCorrectOption(null)
-                setSelectedOption(null)
-                setProggPercentage((subLevel/countSubLevel)*100)
-                setProggBar((subLevel/countSubLevel)*100)
-                setSubLevel(subLevel+1)
-                if(subLevel == countSubLevel){
-                    navigate('/learn')
-                }else{
-                    setQuestions(data.questions[subLevel])
+            const res = await fetch(
+                `http://localhost:8000/api/tutur/courses/${idUser}/${dominant}/${local}`,
+                {
+                    method: "PATCH"
                 }
-            }, 800)
-        }else{
-            setWrongOption(option)
+            )
 
-            setTimeout(() => {
-                setWrongOption(null)
-                setSelectedOption(null)
-            }, 800)
+            if (!res.ok) {
+                throw new Error("Failed to update level")
+            }
+
+        } catch (err) {
+            console.error(err)
         }
     }
 
+    const handleAnswer = (option) => {
+
+        setSelectedOption(option)
+
+        if(option === questions.answer){
+
+            setCorrectOption(option)
+
+            setTimeout(()=>{
+
+                setCorrectOption(null)
+                setSelectedOption(null)
+
+                const newProgress = ((subLevel + 1) / countSubLevel) * 100
+                setProgress(newProgress)
+
+                if(subLevel === countSubLevel){
+                    updateLevel()
+                    navigate("/learn")
+                }else{
+                    setQuestions(data.questions[subLevel])
+                    setSubLevel(subLevel+1)
+                }
+
+            },900)
+
+        }else{
+
+            setWrongOption(option)
+
+            setTimeout(()=>{
+                setWrongOption(null)
+                setSelectedOption(null)
+            },700)
+
+        }
+
+    }
+
+    const getFlag = () =>{
+        const language = localStorage.getItem('local')
+        const flags = {
+            minang: minang,
+            java: jawa,
+            batak_toba: minang,
+            iban: dayak,
+            melayu_serawak: betawi
+        }
+
+        const key = language.toLowerCase().trim().replace(/\s+/g, "_")
+        return flags[key]
+    }
+
     return(
-        <div className="bg-linear-to-br from-slate-50 via-blue-50 to-slate-50 min-h-screen">
-            <div className="flex items-center justify-center min-h-screen p-4">
-                <div className="w-full max-w-2xl">
 
-                    <div className="mb-12">
-                        <div className="flex items-center justify-between mb-3">
-                            <span className="text-sm font-medium text-slate-600">
-                                Question {subLevel} of {countSubLevel}
-                            </span>
-                            <span className="text-sm font-medium text-slate-600">
-                                {proggPercentage}%
-                            </span>
-                        </div>
-                        <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                            <div className={`h-full w-[${proggBar}%] bg-linear-to-r from-blue-500 to-cyan-500 rounded-full`}></div>
-                        </div>
-                    </div>
+        <div className="min-h-screen bg-white">
 
-                    <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+            {/* HEADER */}
+            <div className="max-w-7xl mx-auto px-10 pt-10">
 
-                        <div className="mb-10">
-                            <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
-                                {questions.question}
-                            </h1>
-                        </div>
+                <div className="flex items-center justify-between mb-6">
 
-                        <div className="space-y-4">
-                            {questions.options.map(option => {
-                                const isSelected = selectedOption === option
-                                const isWrong = wrongOption === option
-                                const isCorrect = correctOption === option
+                    <button
+                        onClick={()=>navigate("/learn")}
+                        className="text-gray-600 cursor-pointer font-semibold hover:text-black"
+                    >
+                        ← Back
+                    </button>
 
-                                return (
-                                    <label key={option} className="block cursor-pointer">
-                                        <input 
-                                            type="radio" 
-                                            name="answer"
-                                            checked={isSelected}
-                                            onChange={() => handleAnswer(option)}
-                                            className="hidden"
-                                        />
+                    <span className="text-gray-500 font-medium">
+                        Question {subLevel} / {countSubLevel}
+                    </span>
 
-                                        <div
-                                            className={`
-                                                flex items-center p-5 border-2 rounded-xl transition-all duration-300
-                                                ${isWrong 
-                                                    ? "border-red-500 bg-red-100 animate-shake" 
-                                                    : isCorrect
-                                                        ? "border-green-500 bg-green-100 animate-pop"
-                                                        : isSelected 
-                                                            ? "border-blue-500 bg-blue-50"
-                                                            : "border-slate-200 hover:border-blue-400 hover:bg-blue-50"
-                                                }
-                                            `}
-                                        >
-                                            <span
-                                                className={`
-                                                    text-lg font-medium transition-colors duration-300
-                                                    ${isWrong 
-                                                        ? "text-red-600"
-                                                        : isCorrect
-                                                            ? "text-green-600"
-                                                            : isSelected
-                                                                ? "text-blue-600"
-                                                                : "text-slate-700"
-                                                    }
-                                                `}
-                                            >
-                                                {option}
-                                            </span>
-                                        </div>
-                                    </label>
-                                )
-                            })}
-                        </div>
-
-                        <div className="mt-12 pt-8 border-t border-slate-200">
-                            <p className="text-sm text-slate-500 text-center">
-                                Select an answer and click next to continue
-                            </p>
-                        </div>
-
-                    </div>
                 </div>
+
+                {/* Progress */}
+                <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+
+                    <div
+                        className="h-full bg-blue-500 transition-all duration-500"
+                        style={{width:`${progress}%`}}
+                    />
+
+                </div>
+
             </div>
+
+
+            {/* MAIN */}
+            <div className="max-w-7xl mx-auto px-10 py-16 grid grid-cols-2 gap-16 items-start">
+
+
+                {/* LEFT - QUESTION */}
+                <div className="flex items-center gap-6">
+                    <div className="
+                        w-32
+                        rounded-xl
+                        mb-4
+                        group-hover:scale-110
+                        transition-transform
+                    ">
+                        <img
+                            src={getFlag()}
+                            className="w-full h-full"
+                        />
+                    </div>
+                    <h1 className="text-4xl font-bold text-gray-900 leading-snug mb-6">
+                        {questions.question}
+                    </h1>
+
+                </div>
+
+
+                {/* RIGHT - OPTIONS */}
+                <div className="space-y-4">
+                    <p className="text-gray-500 text-lg">
+                        Choose the correct answer to continue.
+                    </p>
+                    {questions.options.map(option => {
+
+                        const isSelected = selectedOption === option
+                        const isWrong = wrongOption === option
+                        const isCorrect = correctOption === option
+
+                        return(
+                            
+                            <button
+                                key={option}
+                                onClick={()=>handleAnswer(option)}
+                                className={`
+                                    w-full text-left p-6 rounded-xl border-2
+                                    transition-all duration-200 font-semibold text-lg
+
+                                    ${isWrong
+                                        ? "border-red-500 bg-red-50"
+                                        : isCorrect
+                                        ? "border-green-500 bg-green-50 scale-105"
+                                        : isSelected
+                                        ? "border-blue-500 bg-blue-50"
+                                        : "border-gray-200 hover:border-blue-400 hover:bg-blue-50"
+                                    }
+                                `}
+                            >
+
+                                {option}
+
+                            </button>
+
+                        )
+
+                    })}
+
+                </div>
+
+            </div>
+
         </div>
+
     )
+
 }
 
 export default Question
