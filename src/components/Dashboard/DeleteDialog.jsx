@@ -3,7 +3,7 @@ export default function DeleteDialog({ languageName, onClose }) {
 
     const deleteLang = async () => {
         await fetch(
-            `http://localhost:8000/api/tutur/community/delete/${idUser}/${languageName}`,
+            `http://103.143.71.178:8000/api/tutur/community/delete/${idUser}/${languageName}`,
             { method: "DELETE" }
         );
         window.location.href = "/community";

@@ -11,7 +11,7 @@ export default function AddLanguagePanel({ onAdded }) {
 
         setLoading(true);
 
-        await fetch("http://localhost:8000/api/tutur/community/addLanguage", {
+        await fetch("http://103.143.71.178:8000/api/tutur/community/addLanguage", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

@@ -16,7 +16,7 @@ export default function LanguageEditor() {
 
     async function fetchData() {
         const res = await fetch(
-            `http://localhost:8000/api/tutur/community/listLanguages/${idUser}/${language.languageName}`
+            `http://103.143.71.178:8000/api/tutur/community/listLanguages/${idUser}/${language.languageName}`
         );
         const json = await res.json();
         setData(json.language);
@@ -24,7 +24,7 @@ export default function LanguageEditor() {
 
     async function fetchProgress() {
         const res = await fetch(
-            `http://localhost:8000/api/tutur/community/progress/${idUser}/${language.languageName}`
+            `http://103.143.71.178:8000/api/tutur/community/progress/${idUser}/${language.languageName}`
         );
         const json = await res.json();
         setProgress(json.progressPercent);
@@ -37,7 +37,7 @@ export default function LanguageEditor() {
 
     const handleSave = async () => {
         await fetch(
-            `http://localhost:8000/api/tutur/community/save/${idUser}/${language.languageName}`,
+            `http://103.143.71.178:8000/api/tutur/community/save/${idUser}/${language.languageName}`,
             { method: "POST" }
         );
         fetchProgress();
