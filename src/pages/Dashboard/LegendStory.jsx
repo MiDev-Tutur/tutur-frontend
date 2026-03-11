@@ -78,7 +78,7 @@ export default function LegendStory() {
         const lang = legend.lang.replace(/[_ ]/g, '');
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/tutur/urban-legends/test/${lang}/${title}`)
+            const res = await fetch(`http://103.143.71.178:8000/api/tutur/urban-legends/test/${lang}/${title}`)
             const data = await res.json();
 
             navigate('/urban-test', {state: {data}})

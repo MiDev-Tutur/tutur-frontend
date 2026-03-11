@@ -45,7 +45,7 @@ export default function Learn() {
             const localName = localStorage.getItem("local")
 
             const resLang = await fetch(
-                "http://localhost:8000/api/tutur/languages"
+                "http://103.143.71.178:8000/api/tutur/languages"
             )
 
             const langs = await resLang.json()
@@ -66,7 +66,7 @@ export default function Learn() {
             }
 
             await fetch(
-                "http://localhost:8000/api/tutur/courses",
+                "http://103.143.71.178:8000/api/tutur/courses",
                 {
                     method: "POST",
                     headers: {
@@ -101,7 +101,7 @@ export default function Learn() {
             const local = localStorage.getItem("local")
 
             const res = await fetch(
-                `http://localhost:8000/api/tutur/courses/user/${id}/${dominant}/${local}`
+                `http://103.143.71.178:8000/api/tutur/courses/user/${id}/${dominant}/${local}`
             )
 
             if (res.status === 404) {
@@ -109,7 +109,7 @@ export default function Learn() {
                 await createCourse()
 
                 const newRes = await fetch(
-                    `http://localhost:8000/api/tutur/courses/user/${id}/${dominant}/${local}`
+                    `http://103.143.71.178:8000/api/tutur/courses/user/${id}/${dominant}/${local}`
                 )
 
                 const newData = await newRes.json()
@@ -146,7 +146,7 @@ export default function Learn() {
             const dominant = localStorage.getItem("dominant")
 
             const res = await fetch(
-                `http://127.0.0.1:8000/api/tutur/course/${dominant}/${localLang}`
+                `http://103.143.71.178:8000/api/tutur/course/${dominant}/${localLang}`
             )
 
             if (!res.ok) {
@@ -181,7 +181,7 @@ export default function Learn() {
         try {
 
             const res = await fetch(
-                "http://localhost:8000/api/tutur/languages"
+                "http://103.143.71.178:8000/api/tutur/languages"
             )
 
             const data = await res.json()
