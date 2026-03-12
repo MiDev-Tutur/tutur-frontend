@@ -28,7 +28,7 @@ export default function Register() {
         e.preventDefault()
         setLoading(true)
         try {
-            const response = await fetch("http://103.143.71.178:8000/api/tutur/users", {
+            const response = await fetch("http://127.0.0.1:8000/api/tutur/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

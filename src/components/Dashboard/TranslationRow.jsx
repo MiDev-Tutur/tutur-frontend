@@ -4,7 +4,7 @@ export default function TranslationRow({ row, onUpdated }) {
 
     const update = async () => {
         await fetch(
-            `http://103.143.71.178:8000/api/tutur/community/updateTranslation/${idUser}/${row.languageName}`,
+            `http://127.0.0.1:8000/api/tutur/community/updateTranslation/${idUser}/${row.languageName}`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

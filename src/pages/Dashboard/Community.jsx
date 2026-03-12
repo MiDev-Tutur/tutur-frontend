@@ -9,7 +9,7 @@ export default function Community() {
     const idUser = localStorage.getItem("id");
 
     const fetchLanguages = async () => {
-        const res = await fetch(`http://103.143.71.178:8000/api/tutur/community/listLanguages/${idUser}`);
+        const res = await fetch(`http://127.0.0.1:8000/api/tutur/community/listLanguages/${idUser}`);
         const data = await res.json();
         setLanguages(data.languages);
     };

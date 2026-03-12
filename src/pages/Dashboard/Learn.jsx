@@ -43,7 +43,7 @@ export default function Learn() {
             const dominantName = localStorage.getItem("dominant");
             const localName = localStorage.getItem("local");
 
-            const resLang = await fetch("http://103.143.71.178:8000/api/tutur/languages");
+            const resLang = await fetch("http://127.0.0.1:8000/api/tutur/languages");
             const langs = await resLang.json();
 
             const dominant = langs.find(
@@ -55,7 +55,7 @@ export default function Learn() {
 
             if (!dominant || !local) return;
 
-            await fetch("http://103.143.71.178:8000/api/tutur/courses", {
+            await fetch("http://127.0.0.1:8000/api/tutur/courses", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -79,13 +79,13 @@ export default function Learn() {
             const local = localStorage.getItem("local");
 
             const res = await fetch(
-                `http://103.143.71.178:8000/api/tutur/courses/user/${id}/${dominant}/${local}`
+                `http://127.0.0.1:8000/api/tutur/courses/user/${id}/${dominant}/${local}`
             );
 
             if (res.status === 404) {
                 await createCourse();
                 const newRes = await fetch(
-                    `http://103.143.71.178:8000/api/tutur/courses/user/${id}/${dominant}/${local}`
+                    `http://127.0.0.1:8000/api/tutur/courses/user/${id}/${dominant}/${local}`
                 );
                 const newData = await newRes.json();
                 setCourseStep(newData.courseStep);
@@ -108,7 +108,7 @@ export default function Learn() {
         try {
             const dominant = localStorage.getItem("dominant");
             const res = await fetch(
-                `http://103.143.71.178:8000/api/tutur/course/${dominant}/${localLang}`
+                `http://127.0.0.1:8000/api/tutur/course/${dominant}/${localLang}`
             );
 
             if (!res.ok) throw new Error("Failed to fetch levels");
@@ -130,7 +130,7 @@ export default function Learn() {
     ============================ */
     const getData = async () => {
         try {
-            const res = await fetch("http://103.143.71.178:8000/api/tutur/languages");
+            const res = await fetch("http://127.0.0.1:8000/api/tutur/languages");
             const data = await res.json();
 
             const locals = data.filter((item) => item.languageType === "local");

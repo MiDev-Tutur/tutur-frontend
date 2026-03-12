@@ -35,7 +35,7 @@ export default function Translate() {
     }, [inputText, rightLang]);
 
     const translate = async () => {
-        const res = await fetch("http://103.143.71.178:8000/api/tutur/translate", {
+        const res = await fetch("http://127.0.0.1:8000/api/tutur/translate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -54,7 +54,7 @@ export default function Translate() {
     ============================ */
     const getData = async () => {
         try {
-            const res = await fetch("http://103.143.71.178:8000/api/tutur/languages");
+            const res = await fetch("http://127.0.0.1:8000/api/tutur/languages");
             const data = await res.json();
             const lang = data.map(item => item.languageName.toLowerCase());
             setLanguages(lang);

@@ -29,7 +29,7 @@ const Question = () => {
             const local = localStorage.getItem("local")
 
             const res = await fetch(
-                `http://103.143.71.178:8000/api/tutur/courses/${idUser}/${dominant}/${local}`,
+                `http://127.0.0.1:8000/api/tutur/courses/${idUser}/${dominant}/${local}`,
                 {
                     method: "PATCH"
                 }
