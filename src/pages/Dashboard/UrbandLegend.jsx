@@ -37,12 +37,11 @@ export default function UrbanLegend() {
 
     const handleTest = async(legend) =>{
         const title = legend.title.toLowerCase().replace(/[_ ]+(.)/g, (_, c) => c.toUpperCase());
-        const lang = legend.lang.replace(/[_ ]/g, '');
+        const lang = legend.lang.toLowerCase().replace(/[_ ]+(.)/g, (_, c) => c.toUpperCase());
 
         try {
             const res = await fetch(`http://103.143.71.178:8000/api/tutur/urban-legends/test/${lang}/${title}`)
             const data = await res.json();
-
             navigate('/urban-test', {state: {data}})
         } catch (error) {
             console.err(error)
