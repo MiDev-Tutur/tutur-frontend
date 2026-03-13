@@ -8,6 +8,7 @@ import apoisaloi from "../../assets/img/apoisaloi.jpg"
 import serawak from "../../assets/img/serawak.jpg"
 
 export default function LegendStory() {
+    const API_URL = import.meta.env.VITE_API_URL
     const navigate = useNavigate();
     const location = useLocation();
     const legend = location.state?.legend;
@@ -78,7 +79,7 @@ export default function LegendStory() {
         const lang = legend.lang.toLowerCase().replace(/[_ ]+(.)/g, (_, c) => c.toUpperCase());
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/tutur/urban-legends/test/${lang}/${title}`)
+            const res = await fetch(`${API_URL}/tutur/urban-legends/test/${lang}/${title}`)
             const data = await res.json();
 
             navigate('/urban-test', {state: {data}})

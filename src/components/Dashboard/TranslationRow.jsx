@@ -1,10 +1,11 @@
 export default function TranslationRow({ row, onUpdated }) {
+    const API_URL = import.meta.env.VITE_API_URL
     const idUser = localStorage.getItem("id");
     const [text, setText] = useState(row.translation || "");
 
     const update = async () => {
         await fetch(
-            `http://127.0.0.1:8000/api/tutur/community/updateTranslation/${idUser}/${row.languageName}`,
+            `${API_URL}/tutur/community/updateTranslation/${idUser}/${row.languageName}`,
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

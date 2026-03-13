@@ -5,11 +5,12 @@ import LanguageCard from "../../components/Dashboard/LanguageCard";
 import AddLanguagePanel from "../../components/Dashboard/AddLanguagePanel";
 
 export default function Community() {
+    const API_URL = import.meta.env.VITE_API_URL
     const [languages, setLanguages] = useState([]);
     const idUser = localStorage.getItem("id");
 
     const fetchLanguages = async () => {
-        const res = await fetch(`http://127.0.0.1:8000/api/tutur/community/listLanguages/${idUser}`);
+        const res = await fetch(`${API_URL}/tutur/community/listLanguages/${idUser}`);
         const data = await res.json();
         setLanguages(data.languages);
     };

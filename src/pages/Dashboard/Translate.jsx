@@ -5,6 +5,7 @@ import LanguageDropdown from "../../components/Dashboard/LanguageDropdown";
 import SwapButton from "../../components/Dashboard/SwapButton";
 
 export default function Translate() {
+    const API_URL = import.meta.env.VITE_API_URL
     const [inputText, setInputText] = useState("");
     const [outputText, setOutputText] = useState("");
     const [method, setMethod] = useState("");
@@ -35,7 +36,7 @@ export default function Translate() {
     }, [inputText, rightLang]);
 
     const translate = async () => {
-        const res = await fetch("http://127.0.0.1:8000/api/tutur/translate", {
+        const res = await fetch(`${API_URL}/tutur/translate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -54,7 +55,7 @@ export default function Translate() {
     ============================ */
     const getData = async () => {
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/tutur/languages");
+            const res = await fetch(`${API_URL}/tutur/languages`);
             const data = await res.json();
             const lang = data.map(item => item.languageName.toLowerCase());
             setLanguages(lang);

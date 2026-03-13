@@ -1,9 +1,10 @@
 export default function DeleteDialog({ languageName, onClose }) {
     const idUser = localStorage.getItem("id");
+    const API_URL = import.meta.env.VITE_API_URL
 
     const deleteLang = async () => {
         await fetch(
-            `http://127.0.0.1:8000/api/tutur/community/delete/${idUser}/${languageName}`,
+            `${API_URL}/tutur/community/delete/${idUser}/${languageName}`,
             { method: "DELETE" }
         );
         window.location.href = "/community";

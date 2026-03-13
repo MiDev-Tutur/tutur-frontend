@@ -4,11 +4,13 @@ import LanguageButton from "../../components/Dashboard/LanguageButton";
 
 const Language = () =>{
     const [languages, setLanguages] = useState([])
+    const API_URL = import.meta.env.VITE_API_URL
+
 
     useEffect(() => {
         const getData = async () => {
             try {
-                const res = await fetch("http://127.0.0.1:8000/api/tutur/languages");
+                const res = await fetch(`${API_URL}/tutur/languages`);
                 const data = await res.json();
                 const localLanguages = data
                     .filter(item => item.languageType === "local")

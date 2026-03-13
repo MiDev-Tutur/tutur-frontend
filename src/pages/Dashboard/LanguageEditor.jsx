@@ -7,6 +7,7 @@ import TranslationRow from "./components/TranslationRow";
 import DeleteDialog from "./components/DeleteDialog";
 
 export default function LanguageEditor() {
+    const API_URL = import.meta.env.VITE_API_URL
     const { state: language } = useLocation();
 
     const idUser = localStorage.getItem("id");
@@ -16,7 +17,7 @@ export default function LanguageEditor() {
 
     async function fetchData() {
         const res = await fetch(
-            `http://127.0.0.1:8000/api/tutur/community/listLanguages/${idUser}/${language.languageName}`
+            `${API_URL}/tutur/community/listLanguages/${idUser}/${language.languageName}`
         );
         const json = await res.json();
         setData(json.language);
@@ -24,7 +25,7 @@ export default function LanguageEditor() {
 
     async function fetchProgress() {
         const res = await fetch(
-            `http://127.0.0.1:8000/api/tutur/community/progress/${idUser}/${language.languageName}`
+            `${API_URL}/tutur/community/progress/${idUser}/${language.languageName}`
         );
         const json = await res.json();
         setProgress(json.progressPercent);
@@ -37,7 +38,7 @@ export default function LanguageEditor() {
 
     const handleSave = async () => {
         await fetch(
-            `http://127.0.0.1:8000/api/tutur/community/save/${idUser}/${language.languageName}`,
+            `${API_URL}/api/tutur/community/save/${idUser}/${language.languageName}`,
             { method: "POST" }
         );
         fetchProgress();

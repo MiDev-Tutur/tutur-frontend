@@ -7,11 +7,12 @@ export default function AddLanguagePanel({ onAdded }) {
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async () => {
+        const API_URL = import.meta.env.VITE_API_URL
         if (!dominant || !languageName) return;
 
         setLoading(true);
 
-        await fetch("http://127.0.0.1:8000/api/tutur/community/addLanguage", {
+        await fetch(`${API_URL}/tutur/community/addLanguage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

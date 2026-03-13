@@ -8,13 +8,14 @@ import jawa from "../../assets/img/jawa.png"
 import betawi from "../../assets/img/Betawi.png"
 
 export default function UrbanLegend() {
+    const API_URL = import.meta.env.VITE_API_URL
     const navigate = useNavigate();
     const [legends, setLegends] = useState([])
 
     useEffect(() => {
         const getLegends = async () => {
             try {
-                const res = await fetch("http://127.0.0.1:8000/api/tutur/urban-legends");
+                const res = await fetch(`${API_URL}/tutur/urban-legends`);
                 const data = await res.json();
                 const arr = Object.values(data)
                 setLegends(arr)
@@ -40,7 +41,7 @@ export default function UrbanLegend() {
         const lang = legend.lang.toLowerCase().replace(/[_ ]+(.)/g, (_, c) => c.toUpperCase());
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/tutur/urban-legends/test/${lang}/${title}`)
+            const res = await fetch(`${API_URL}/tutur/urban-legends/test/${lang}/${title}`)
             const data = await res.json();
             navigate('/urban-test', {state: {data}})
         } catch (error) {

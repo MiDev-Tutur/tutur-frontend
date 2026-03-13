@@ -6,11 +6,8 @@ import Login from "./pages/Auth/Login"
 import Register from "./pages/Auth/Register"
 import Profile from "./pages/Dashboard/Profile"
 import Learn from "./pages/Dashboard/Learn"
-import Subscriptions from "./pages/Dashboard/Subscriptions"
-import CompletedTask from "./pages/Dashboard/CompletedTask"
 import Home from "./pages/Home"
 import Community from "./pages/Dashboard/Community"
-import Badge from "./pages/Dashboard/Badge"
 import Language from "./pages/Dashboard/Language"
 import Question from "./pages/Dashboard/Question"
 import UrbanLegend from "./pages/Dashboard/UrbandLegend"
@@ -41,20 +38,8 @@ const router = createBrowserRouter([
     element: <Profile/>
   },
   {
-    path: '/subscriptions',
-    element: <Subscriptions/>
-  },
-  {
-    path: '/completedtask',
-    element: <CompletedTask/>
-  },
-  {
     path: '/community',
     element: <Community/>
-  },
-  {
-    path: '/badge',
-    element: <Badge/>
   },
   {
     path: '/language',

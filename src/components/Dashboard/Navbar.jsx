@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import indonesia from "../../assets/img/indonesia.png"
 import english from "../../assets/img/english.png"
+import malaysia from "../../assets/img/malaysia.png"
 import down from "../../assets/img/down.png"
 import profile from "../../assets/img/logo/profile.png"
 
@@ -20,9 +21,9 @@ const Navbar = ({fetchLevels}) =>{
             dominant: "indonesian"
         },
         {
-            name: 'Malay',
-            flag: english,
-            dominant: "malay"
+            name: 'Malaysia',
+            flag: malaysia,
+            dominant: "malaysia"
         },
     ];
 

@@ -6,7 +6,7 @@ import jawa from "../../assets/img/jawa.png"
 import betawi from "../../assets/img/Betawi.png"
 
 const Question = () => {
-
+    const API_URL = import.meta.env.VITE_API_URL
     const location = useLocation()
     const navigate = useNavigate()
     const data = location.state
@@ -29,7 +29,7 @@ const Question = () => {
             const local = localStorage.getItem("local")
 
             const res = await fetch(
-                `http://127.0.0.1:8000/api/tutur/courses/${idUser}/${dominant}/${local}`,
+                `${API_URL}/tutur/courses/${idUser}/${dominant}/${local}`,
                 {
                     method: "PATCH"
                 }

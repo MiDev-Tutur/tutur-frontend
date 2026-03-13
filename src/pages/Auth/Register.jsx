@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Flash from '../../components/Flash';
 
 export default function Register() {
+    const API_URL = import.meta.env.VITE_API_URL
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -28,7 +29,7 @@ export default function Register() {
         e.preventDefault()
         setLoading(true)
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/tutur/users", {
+            const response = await fetch(`${API_URL}/tutur/users`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

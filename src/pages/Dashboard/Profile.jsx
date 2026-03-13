@@ -1,5 +1,4 @@
 import Sidebar from "../../components/Dashboard/Sidebar"
-import FollowingPanel from "../../components/FollowingPanel"
 import ProfileHeader from "../../components/ProfileHeader"
 
 const Profile = () => {

@@ -5,6 +5,7 @@ import play from "../../assets/img/play.png"
 import { useEffect, useState } from "react";
 
 const Song = () =>{
+    const API_URL = import.meta.env.VITE_API_URL
     const navigate = useNavigate();
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ const Song = () =>{
         const fetchSongs = async () => {
             try {
             setLoading(true);
-            const response = await fetch('http://127.0.0.1:8000/api/tutur/folk-songs');
+            const response = await fetch(`${API_URL}/tutur/folk-songs`);
             if (!response.ok) {
                 throw new Error('Failed to fetch songs');
             }
