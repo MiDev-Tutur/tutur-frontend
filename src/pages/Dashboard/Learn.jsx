@@ -116,7 +116,7 @@ export default function Learn() {
 
             const data = await res.json();
 
-            if (cancelled.current) {
+            if (!cancelled.current) {
                 setLevels(data.courses);
                 setLoading(false);
             }
